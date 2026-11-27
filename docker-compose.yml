@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  docstack:
+    build: .
+    container_name: docstack_site
+    ports:
+      - "3000:80"
+    restart: unless-stopped

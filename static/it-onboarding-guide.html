@@ -1,0 +1,3157 @@
+﻿<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giáo Trình Nhập Môn IT - Cẩm Nang Toàn Diện Cho Người Mới</title>
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-sidebar: #ffffff;
+      --bg-code: #0f172a;
+      --bg-callout-info: #eff6ff;
+      --bg-callout-tip: #ecfdf5;
+      --bg-callout-warn: #fffbeb;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --accent-hover: #1d4ed8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #7c3aed;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.08);
+      --radius: 12px;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0b1120;
+      --bg-surface: #111827;
+      --bg-sidebar: #0f172a;
+      --bg-code: #020617;
+      --bg-callout-info: #172554;
+      --bg-callout-tip: #064e3b;
+      --bg-callout-warn: #451a03;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --accent: #3b82f6;
+      --accent-soft: #1e3a8a;
+      --accent-hover: #60a5fa;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.7;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 300px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .search-box {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .search-box input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-size: 0.88rem;
+      outline: none;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .nav-links {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 12px;
+    }
+    .nav-group-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 10px 10px 4px;
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 7px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .nav-link.disabled {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+    .soon-tag {
+      font-size: 0.65rem;
+      background: var(--border-color);
+      color: var(--text-muted);
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    /* Tree Navigation */
+    .tree-group { margin-bottom: 6px; }
+    .tree-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 8px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .tree-toggle:hover { background: var(--bg-body); }
+    .tree-caret {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+      display: inline-block;
+      width: 12px;
+    }
+    .tree-group.open > .tree-toggle .tree-caret { transform: rotate(90deg); }
+    .tree-children {
+      display: none;
+      margin-left: 12px;
+      padding-left: 10px;
+      border-left: 1.5px solid var(--border-color);
+      margin-top: 2px;
+    }
+    .tree-group.open > .tree-children { display: block; }
+    .tree-sub .tree-children { margin-left: 10px; padding-left: 8px; }
+    .nav-sublink { font-size: 0.81rem; padding: 5px 9px; color: var(--text-muted); }
+    .sidebar-footer {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 8px;
+    }
+    .btn-tool {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-body);
+      color: var(--text-primary);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: 0.15s;
+    }
+    .btn-tool:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Main Content */
+    .main {
+      margin-left: 300px;
+      flex: 1;
+      padding: 32px 48px 80px;
+      max-width: 1120px;
+    }
+
+    /* Mobile Header */
+    .mobile-bar {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 16px;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 40;
+    }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #7c3aed 100%);
+      color: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      margin-bottom: 36px;
+      box-shadow: var(--shadow-md);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .hero h1 { font-size: 2.1rem; line-height: 1.25; margin-bottom: 12px; color: #ffffff; }
+    .hero p { font-size: 1.02rem; color: rgba(255, 255, 255, 0.96); max-width: 760px; }
+    .hero abbr[data-tooltip] { color: #ffffff; border-bottom-color: rgba(255, 255, 255, 0.75); }
+    .hero abbr[data-tooltip]:hover,
+    .hero abbr[data-tooltip]:focus { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 20px;
+      font-size: 0.88rem;
+    }
+    .hero-meta span {
+      background: rgba(255, 255, 255, 0.14);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    /* Sections & Cards */
+    .module-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+    .module-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .module-num {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .module-header h2 { font-size: 1.55rem; color: var(--text-primary); }
+
+    h3 {
+      font-size: 1.22rem;
+      margin: 26px 0 12px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h4 { font-size: 1.04rem; margin: 18px 0 8px; color: var(--text-primary); }
+    p { margin-bottom: 12px; color: var(--text-secondary); }
+    ul, ol { margin: 8px 0 16px 22px; color: var(--text-secondary); }
+    li { margin-bottom: 6px; }
+    strong { color: var(--text-primary); }
+
+    /* Grid cards */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 16px 0; }
+    .card {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .card-title { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--text-primary); }
+
+    /* Callouts */
+    .callout {
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin: 18px 0;
+      border-left: 4px solid var(--accent);
+      background: var(--bg-callout-info);
+    }
+    .callout.tip { border-left-color: var(--success); background: var(--bg-callout-tip); }
+    .callout.warn { border-left-color: var(--warning); background: var(--bg-callout-warn); }
+    .callout-title { font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; margin: 16px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th, td {
+      padding: 11px 14px;
+      border: 1px solid var(--border-color);
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: var(--bg-body);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    td { color: var(--text-secondary); }
+
+    /* Code blocks */
+    .code-wrap {
+      position: relative;
+      margin: 14px 0 20px;
+    }
+    pre {
+      background: var(--bg-code);
+      color: #e2e8f0;
+      padding: 18px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      font-size: 0.87rem;
+      line-height: 1.55;
+    }
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.88em;
+    }
+    pre code { background: transparent; color: inherit; padding: 0; }
+    .copy-btn {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: rgba(255,255,255,0.12);
+      color: #f8fafc;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.76rem;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.25); }
+
+    /* Illustration Figures */
+    .figure-box {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 22px 0;
+      text-align: center;
+    }
+    .figure-box svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .figure-caption {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* Interactive Checklist */
+    .checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: 0.15s;
+    }
+    .checklist label:hover { background: var(--bg-body); }
+    .checklist input[type="checkbox"] { margin-top: 5px; accent-color: var(--accent); transform: scale(1.15); }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-green { background: #d1fae5; color: #065f46; }
+    .badge-purple { background: #ede9fe; color: #5b21b6; }
+    .badge-amber { background: #fef3c7; color: #92400e; }
+
+    /* Acronyms tooltip & Tech cards */
+    abbr[data-tooltip] {
+      text-decoration: none;
+      border-bottom: 1.5px dotted var(--accent);
+      cursor: help;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-radius: 3px;
+      padding: 0 2px;
+      transition: background 0.15s, color 0.15s;
+    }
+    abbr[data-tooltip]:hover,
+    abbr[data-tooltip]:focus {
+      background: var(--accent-soft);
+      color: var(--accent);
+      outline: none;
+    }
+    #acronym-popup {
+      position: fixed;
+      z-index: 9999;
+      max-width: 310px;
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      line-height: 1.48;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.28);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.14s ease, transform 0.14s ease;
+    }
+    #acronym-popup.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #acronym-popup .popup-term {
+      display: inline-block;
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.74rem;
+      padding: 1px 7px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      letter-spacing: 0.03em;
+    }
+    #acronym-popup .popup-desc {
+      display: block;
+      color: #e2e8f0;
+    }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
+      gap: 14px;
+      margin: 14px 0 24px;
+    }
+    .tech-card {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 15px 16px;
+      position: relative;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .tech-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .tech-card.tech-hot {
+      border: 1.5px solid var(--accent);
+      background: linear-gradient(180deg, var(--bg-callout-info) 0%, var(--bg-body) 45%);
+    }
+    .tech-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .tech-name {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+    .hot-tag {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .tech-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.55;
+    }
+    .tech-meta {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* BA 8 Core Skills Grid */
+    .ba-skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 14px;
+      margin: 16px 0 24px;
+    }
+    .ba-skill-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .ba-skill-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .ba-skill-card.ba-ai {
+      background: linear-gradient(135deg, var(--bg-callout-info) 0%, var(--bg-surface) 80%);
+      border-color: #a78bfa;
+    }
+    .ba-skill-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+    .ba-skill-card h5 {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .ba-skill-card p {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Interactive Flowchart Symbols */
+    .fc-explorer {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      margin: 16px 0 22px;
+    }
+    .fc-symbol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .fc-symbol-btn {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      color: var(--text-primary);
+    }
+    .fc-symbol-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .fc-symbol-btn.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+    .fc-symbol-btn span {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .fc-detail-box {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      padding: 16px 20px;
+      animation: fcFade 0.2s ease;
+    }
+    @keyframes fcFade {
+      from { opacity: 0.4; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fc-detail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .fc-detail-title { font-size: 1.05rem; font-weight: 800; color: var(--accent); }
+    .fc-detail-list { margin: 0; padding-left: 18px; }
+    .fc-detail-list li { margin-bottom: 5px; font-size: 0.92rem; }
+
+    /* Search highlight */
+    .hidden-by-search { display: none !important; }
+
+    @media (max-width: 960px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-bar { display: flex; }
+      .main { margin-left: 0; padding: 76px 18px 60px; }
+      .module-section { padding: 20px; }
+      .hero { padding: 24px; }
+      .hero h1 { font-size: 1.55rem; }
+    }
+
+    @media print {
+      .sidebar, .mobile-bar, .copy-btn { display: none !important; }
+      .main { margin-left: 0; max-width: 100%; padding: 0; }
+      .module-section { break-inside: avoid-page; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Top Bar -->
+  <div class="mobile-bar">
+    <strong>📚 Giáo Trình Nhập Môn IT</strong>
+    <button class="btn-tool" style="flex:0" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Menu</button>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">🚀 IT Onboarding Guide</div>
+      <div class="brand-sub">Cẩm nang cho người mới gia nhập ngành IT</div>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="🔍 Tìm thuật ngữ, Git, BA, .NET..." oninput="filterSections()" />
+    </div>
+    <nav class="nav-links">
+      <!-- Nhóm A -->
+      <div class="tree-group open">
+        <button class="tree-toggle" onclick="this.parentElement.classList.toggle('open')">
+          <span class="tree-caret">▶</span> A. Quy Trình &amp; Tổng Quan
+        </button>
+        <div class="tree-children">
+          <a class="nav-link" href="#phan-1">A.1. Quy Trình Phần Mềm (SDLC)</a>
+          <a class="nav-link" href="#phan-2">A.2. Vai Trò &amp; Công Việc Từng Vị Trí</a>
+          <a class="nav-link" href="#phan-3">A.3. Tài Liệu Cho Từng Vị Trí (A–Z)</a>
+        </div>
+      </div>
+
+      <!-- Nhóm B -->
+      <div class="tree-group open">
+        <button class="tree-toggle" onclick="this.parentElement.classList.toggle('open')">
+          <span class="tree-caret">▶</span> B. Chuyên Sâu Theo Vị Trí
+        </button>
+        <div class="tree-children">
+          <div class="tree-group tree-sub open">
+            <button class="tree-toggle" style="text-transform:none;font-size:0.84rem;font-weight:700;" onclick="this.parentElement.classList.toggle('open'); location.hash='#phan-4';">
+              <span class="tree-caret">▶</span> B.1. BA (Business Analyst)
+            </button>
+            <div class="tree-children">
+              <a class="nav-link nav-sublink" href="#ba-lo-trinh">B.1.1. Tổng Quan Công Việc BA Trong Dự Án</a>
+              <a class="nav-link nav-sublink" href="#ba-tai-lieu">B.1.2. Các Loại Tài Liệu BA Cần Biết</a>
+              <a class="nav-link nav-sublink" href="#ba-cr">B.1.3. Quản lý Change Request (CR)</a>
+              <a class="nav-link nav-sublink" href="#ba-ky-nang">B.1.4. 8 Kỹ năng BA &amp; AI Skills</a>
+            </div>
+          </div>
+          <a class="nav-link disabled" href="javascript:void(0)">B.2. Chuyên Sâu Dev (.NET/FE) <span class="soon-tag">Soon</span></a>
+          <a class="nav-link disabled" href="javascript:void(0)">B.3. Chuyên Sâu QA / Tester <span class="soon-tag">Soon</span></a>
+        </div>
+      </div>
+
+      <!-- Nhóm C -->
+      <div class="tree-group open">
+        <button class="tree-toggle" onclick="this.parentElement.classList.toggle('open')">
+          <span class="tree-caret">▶</span> C. Tài Liệu Tham Khảo
+        </button>
+        <div class="tree-children">
+          <a class="nav-link" href="#phan-5">C.1. Case Study: Dự Án MES</a>
+          <a class="nav-link" href="#phan-6">C.2. Git / SVN &amp; Công Nghệ</a>
+          <a class="nav-link" href="#waterfall-ref">C.3. Mô Hình Waterfall (Thác Nước)</a>
+          <a class="nav-link" href="#agile-ref">C.4. Mô Hình Agile / Scrum</a>
+          <div class="tree-group tree-sub open">
+            <button class="tree-toggle" style="text-transform:none;font-size:0.84rem;font-weight:700;" onclick="this.parentElement.classList.toggle('open'); location.hash='#srs-quickmeet';">
+              <span class="tree-caret">▶</span> C.5. Case Study SRS: Quản Lý Tài Sản
+            </button>
+            <div class="tree-children">
+              <a class="nav-link nav-sublink" href="#qm-brd">C.5.1. As-Is, To-Be &amp; BRD</a>
+              <a class="nav-link nav-sublink" href="#qm-tobe">C.5.2. To-Be Process (Swimlane)</a>
+              <a class="nav-link nav-sublink" href="#qm-usecase">C.5.3. Use Case &amp; 3 Luồng</a>
+              <a class="nav-link nav-sublink" href="#qm-flow">C.5.4. System Flow &amp; Prototype</a>
+              <a class="nav-link nav-sublink" href="#qm-srs">C.5.5. Đặc Tả SRS (FR &amp; QR)</a>
+              <a class="nav-link nav-sublink" href="#qm-release">C.5.6. Release Plan &amp; Test Case</a>
+            </div>
+          </div>
+          <a class="nav-link" href="#glossary">C.6. Bảng Chú Thích Từ Viết Tắt</a>
+        </div>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-tool" onclick="toggleTheme()">🌓 Sáng / Tối</button>
+      <button class="btn-tool" onclick="window.print()">🖨️ In / PDF</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <header class="hero">
+      <span class="hero-badge">DocStack Academy • Phiên bản Nội bộ 2026</span>
+      <h1>Giáo Trình Nhập Môn Công Nghệ Thông Tin</h1>
+      <p>
+        Tài liệu hướng dẫn nội bộ dành cho thành viên mới (Fresher, Intern, BA, Dev): từ từ điển thuật ngữ Anh–Việt–Hàn đến giải thích quy trình làm phần mềm thực tế trong dự án.
+      </p>
+      <div class="hero-meta">
+        <span>🗺️ Lộ trình: Quy trình → Vai trò → Tài liệu → BA</span>
+        <span>🎯 Trọng tâm: Thực chiến & Quy trình BA/Dev</span>
+        <span>📊 Kèm sơ đồ minh họa trực quan</span>
+      </div>
+    </header>
+
+    <!-- ==================== MODULE 1 ==================== -->
+    <section id="phan-1" class="module-section">
+      <div class="module-header">
+        <span class="module-num">A.1</span>
+        <h2>A.1. Quy Trình Phát Triển Phần Mềm (SDLC) &amp; Bức Tranh Hệ Thống</h2>
+      </div>
+
+      <h3>A.1.1. Vòng đời phát triển phần mềm (SDLC) &amp; Agile/Scrum</h3>
+      <p>
+        Hai mô hình phổ biến nhất hiện nay là <strong>Waterfall (Thác nước)</strong> — làm tuần tự từng bước, chốt cứng từ đầu — và <strong>Agile/Scrum</strong> — chia nhỏ dự án thành các chu kỳ ngắn gọi là <strong>Sprint (thường 2 tuần)</strong> để giao sản phẩm liên tục và thích ứng nhanh với thay đổi.
+      </p>
+
+      <!-- HÌNH MINH HỌA 3: QUY TRÌNH PHỐI HỢP SCRUM -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 180" xmlns="http://www.w3.org/2000/svg">
+          <!-- Step 1 -->
+          <rect x="15" y="45" width="145" height="110" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+          <text x="87" y="75" text-anchor="middle" font-weight="bold" font-size="13" fill="#5b21b6">1. PO &amp; BA</text>
+          <text x="87" y="98" text-anchor="middle" font-size="11" fill="#475569">Lấy yêu cầu,</text>
+          <text x="87" y="115" text-anchor="middle" font-size="11" fill="#475569">viết User Story &amp; AC</text>
+          <text x="87" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#6d28d9">Product Backlog</text>
+
+          <line x1="162" y1="100" x2="188" y2="100" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <!-- Step 2 -->
+          <rect x="192" y="45" width="145" height="110" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="264" y="75" text-anchor="middle" font-weight="bold" font-size="13" fill="#1e3a8a">2. Sprint Planning</text>
+          <text x="264" y="98" text-anchor="middle" font-size="11" fill="#475569">PM + BA + Dev + QA</text>
+          <text x="264" y="115" text-anchor="middle" font-size="11" fill="#475569">ước lượng Effort &amp;</text>
+          <text x="264" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#1d4ed8">Chốt việc 2 tuần</text>
+
+          <line x1="339" y1="100" x2="365" y2="100" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <!-- Step 3 -->
+          <rect x="369" y="45" width="145" height="110" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+          <text x="441" y="75" text-anchor="middle" font-weight="bold" font-size="13" fill="#065f46">3. Dev Coding</text>
+          <text x="441" y="98" text-anchor="middle" font-size="11" fill="#475569">Code, Unit Test,</text>
+          <text x="441" y="115" text-anchor="middle" font-size="11" fill="#475569">Review Code (PR),</text>
+          <text x="441" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#047857">Deploy lên Staging</text>
+
+          <line x1="516" y1="100" x2="542" y2="100" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <!-- Step 4 -->
+          <rect x="546" y="45" width="145" height="110" rx="10" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="618" y="75" text-anchor="middle" font-weight="bold" font-size="13" fill="#92400e">4. QA Testing</text>
+          <text x="618" y="98" text-anchor="middle" font-size="11" fill="#475569">Chạy Test Case,</text>
+          <text x="618" y="115" text-anchor="middle" font-size="11" fill="#475569">Log Bug / Verify Fix,</text>
+          <text x="618" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#b45309">BA kiểm tra UAT</text>
+
+          <line x1="693" y1="100" x2="719" y2="100" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <!-- Step 5 -->
+          <rect x="723" y="45" width="122" height="110" rx="10" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+          <text x="784" y="75" text-anchor="middle" font-weight="bold" font-size="13" fill="#0f172a">5. Release</text>
+          <text x="784" y="98" text-anchor="middle" font-size="11" fill="#475569">Sprint Review,</text>
+          <text x="784" y="115" text-anchor="middle" font-size="11" fill="#475569">Deploy Production,</text>
+          <text x="784" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">Retrospective</text>
+        </svg>
+        <div class="figure-caption">Hình 1.1: Chu trình phối hợp các vai trò trong một Sprint theo mô hình Agile/Scrum</div>
+      </div>
+
+            <h3>A.1.2. Cách Một Phần Mềm Hoạt Động &amp; 4 Môi Trường Triển Khai</h3>
+      <p>Hiểu nhanh mô hình hoạt động của ứng dụng (Frontend → API → Backend → Database) và 4 môi trường chạy phần mềm (Local → Dev → Staging/UAT → Production):</p>
+      <div class="figure-box">
+        <svg viewBox="0 0 860 270" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb" /></marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" /></marker>
+          </defs>
+          <rect x="20" y="50" width="180" height="140" rx="14" fill="#eff6ff" stroke="#3b82f6" stroke-width="2.5"/>
+          <text x="110" y="88" text-anchor="middle" font-weight="bold" font-size="15" fill="#1e3a8a">1. CLIENT (Frontend)</text>
+          <text x="110" y="114" text-anchor="middle" font-size="12" fill="#475569">Web / Mobile App</text>
+          <rect x="48" y="128" width="124" height="42" rx="6" fill="#ffffff" stroke="#93c5fd"/>
+          <text x="110" y="153" text-anchor="middle" font-size="12" font-weight="600" fill="#2563eb">React / Vue / Angular</text>
+          <line x1="205" y1="95" x2="325" y2="95" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+          <text x="265" y="83" text-anchor="middle" font-size="12" font-weight="bold" fill="#2563eb">HTTP Request</text>
+          <text x="265" y="112" text-anchor="middle" font-size="11" fill="#64748b">(JSON / API)</text>
+          <line x1="325" y1="150" x2="205" y2="150" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+          <text x="265" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#059669">HTTP Response</text>
+          <rect x="335" y="50" width="200" height="140" rx="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.5"/>
+          <text x="435" y="88" text-anchor="middle" font-weight="bold" font-size="15" fill="#4c1d95">2. SERVER (Backend)</text>
+          <text x="435" y="114" text-anchor="middle" font-size="12" fill="#475569">Xử lý nghiệp vụ &amp; Bảo mật</text>
+          <rect x="360" y="128" width="150" height="42" rx="6" fill="#ffffff" stroke="#c4b5fd"/>
+          <text x="435" y="153" text-anchor="middle" font-size="12" font-weight="600" fill="#6d28d9">.NET Core / Java / Node</text>
+          <line x1="540" y1="95" x2="650" y2="95" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+          <text x="595" y="83" text-anchor="middle" font-size="12" font-weight="bold" fill="#2563eb">SQL Query</text>
+          <line x1="650" y1="150" x2="540" y2="150" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+          <text x="595" y="170" text-anchor="middle" font-size="12" font-weight="bold" fill="#059669">Dữ liệu trả về</text>
+          <rect x="660" y="50" width="180" height="140" rx="14" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5"/>
+          <text x="750" y="88" text-anchor="middle" font-weight="bold" font-size="15" fill="#065f46">3. DATABASE</text>
+          <text x="750" y="114" text-anchor="middle" font-size="12" fill="#475569">Lưu trữ dữ liệu bền vững</text>
+          <rect x="685" y="128" width="130" height="42" rx="6" fill="#ffffff" stroke="#6ee7b7"/>
+          <text x="750" y="153" text-anchor="middle" font-size="12" font-weight="600" fill="#047857">SQL Server / Redis</text>
+          <rect x="20" y="215" width="820" height="42" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+          <text x="430" y="241" text-anchor="middle" font-size="13" font-weight="bold" fill="#334155">4 Môi trường chuẩn:   💻 Local (Máy Dev)  ➜  🧪 Dev (Tích hợp)  ➜  🔍 Staging/UAT (Khách test)  ➜  🚀 Production (Chạy thật)</text>
+        </svg>
+        <div class="figure-caption">Hình 1.2: Mô hình Client – Server – Database và 4 môi trường triển khai phần mềm</div>
+      </div>
+    </section>
+
+    <!-- ==================== MODULE 4 ==================== -->
+    <!-- ==================== PHẦN 2: VAI TRÒ & CÔNG VIỆC TỪNG VỊ TRÍ ==================== -->
+    <section id="phan-2" class="module-section">
+      <div class="module-header">
+        <span class="module-num">A.2</span>
+        <h2>A.2. Vai Trò &amp; Công Việc Từng Vị Trí</h2>
+      </div>
+
+      <p>
+        Trong một dự án phần mềm, khái niệm "Quản lý" không chỉ có 1 người mà được chia thành nhiều vai trò rõ ràng. Sơ đồ dưới đây tóm gọn <strong>các nhóm vai trò cốt lõi</strong> và trách nhiệm gắn liền với từng vị trí:
+      </p>
+
+      <div class="figure-box">
+        <svg viewBox="0 0 860 285" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="15" width="265" height="120" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+          <text x="147" y="40" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#1e3a8a">👔 1. Nhóm Quản Lý &amp; Dẫn Dắt</text>
+          <text x="147" y="61" text-anchor="middle" font-size="11" font-weight="bold" fill="#1d4ed8">PM • PO • Scrum Master • Tech Lead</text>
+          <text x="147" y="81" text-anchor="middle" font-size="11" fill="#334155">• PM: Tiến độ, Ngân sách, Rủi ro</text>
+          <text x="147" y="99" text-anchor="middle" font-size="11" fill="#334155">• PO: Giá trị sản phẩm &amp; Backlog</text>
+          <text x="147" y="117" text-anchor="middle" font-size="11" fill="#334155">• Tech Lead: Kiến trúc &amp; Review Code</text>
+
+          <rect x="297" y="15" width="265" height="120" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+          <text x="429" y="40" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#5b21b6">📋 2. Phân Tích Nghiệp Vụ (BA)</text>
+          <text x="429" y="61" text-anchor="middle" font-size="11" font-weight="bold" fill="#6d28d9">IT BA • Product BA (Cầu nối 2 chiều)</text>
+          <text x="429" y="81" text-anchor="middle" font-size="11" fill="#334155">• Khảo sát quy trình As-Is / To-Be</text>
+          <text x="429" y="99" text-anchor="middle" font-size="11" fill="#334155">• Viết BRD, SRS, User Story + AC</text>
+          <text x="429" y="117" text-anchor="middle" font-size="11" fill="#334155">• Truyền đạt Dev/QA &amp; Nghiệm thu UAT</text>
+
+          <rect x="579" y="15" width="265" height="120" rx="12" fill="#fdf2f8" stroke="#db2777" stroke-width="2"/>
+          <text x="711" y="40" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#9d174d">🎨 3. UI/UX Designer</text>
+          <text x="711" y="61" text-anchor="middle" font-size="11" font-weight="bold" fill="#be185d">Thiết kế Trải nghiệm &amp; Giao diện</text>
+          <text x="711" y="81" text-anchor="middle" font-size="11" fill="#334155">• Tối ưu luồng thao tác (UX)</text>
+          <text x="711" y="99" text-anchor="middle" font-size="11" fill="#334155">• Vẽ màn hình chi tiết trên Figma (UI)</text>
+          <text x="711" y="117" text-anchor="middle" font-size="11" fill="#334155">• Bàn giao Design System cho Frontend</text>
+
+          <rect x="15" y="150" width="265" height="120" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+          <text x="147" y="175" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#065f46">⚡ 4. Developer (BE / FE / Mobile)</text>
+          <text x="147" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#047857">Xây dựng sản phẩm bằng Code</text>
+          <text x="147" y="216" text-anchor="middle" font-size="11" fill="#334155">• Thiết kế DB (ERD), API &amp; Viết code</text>
+          <text x="147" y="234" text-anchor="middle" font-size="11" fill="#334155">• Unit Test, tạo PR &amp; Review Code</text>
+          <text x="147" y="252" text-anchor="middle" font-size="11" fill="#334155">• Sửa lỗi (Fix Bug) từ QA/Staging</text>
+
+          <rect x="297" y="150" width="265" height="120" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="429" y="175" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#92400e">🧪 5. QA / QC (Tester)</text>
+          <text x="429" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">Kiểm soát Chất lượng Phần mềm</text>
+          <text x="429" y="216" text-anchor="middle" font-size="11" fill="#334155">• Đọc SRS/AC để viết Test Plan &amp; Case</text>
+          <text x="429" y="234" text-anchor="middle" font-size="11" fill="#334155">• Kiểm thử trên Staging &amp; Log Bug</text>
+          <text x="429" y="252" text-anchor="middle" font-size="11" fill="#334155">• Regression Test trước khi Release</text>
+
+          <rect x="579" y="150" width="265" height="120" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+          <text x="711" y="175" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#0f172a">🚀 6. DevOps Engineer</text>
+          <text x="711" y="196" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155">Vận hành Hạ tầng &amp; Tự động hóa</text>
+          <text x="711" y="216" text-anchor="middle" font-size="11" fill="#334155">• Dựng Server, Docker &amp; Cloud</text>
+          <text x="711" y="234" text-anchor="middle" font-size="11" fill="#334155">• Thiết lập CI/CD tự động Deploy</text>
+          <text x="711" y="252" text-anchor="middle" font-size="11" fill="#334155">• Giám sát hệ thống &amp; Backup dữ liệu</text>
+        </svg>
+        <div class="figure-caption">Hình 2.1: Tóm tắt các nhóm vai trò cốt lõi và trách nhiệm chính trong Team phát triển phần mềm</div>
+      </div>
+
+      <h3>A.2.1. Phân Biệt Rõ Các Vị Trí "Quản Lý" Trong Dự Án (PM – PO – Scrum Master – Tech Lead)</h3>
+      <p>Người mới rất hay nhầm lẫn các chức danh quản lý. Thực tế mỗi vị trí chịu trách nhiệm một mảng riêng biệt:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:170px;">Vị trí cụ thể</th>
+              <th style="width:180px;">Trọng tâm quản lý</th>
+              <th>Công việc &amp; Trách nhiệm cụ thể</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PM</strong><br><em>(Project Manager)</em></td>
+              <td>Tiến độ, Ngân sách &amp; Hợp đồng</td>
+              <td>Lập kế hoạch tổng thể (Timeline), phân bổ nhân sự, theo dõi tiến độ hàng ngày, quản lý rủi ro, kiểm soát chi phí và báo cáo trực tiếp với Khách hàng / Ban Giám Đốc.</td>
+            </tr>
+            <tr>
+              <td><strong>PO</strong><br><em>(Product Owner)</em></td>
+              <td>Sản phẩm &amp; Giá trị kinh doanh</td>
+              <td>Đại diện tiếng nói khách hàng/doanh nghiệp. Quyết định <strong>làm cái gì (What)</strong> và <strong>tại sao (Why)</strong>; sắp xếp thứ tự ưu tiên trên Product Backlog để tối đa hóa giá trị sản phẩm.</td>
+            </tr>
+            <tr>
+              <td><strong>Scrum Master</strong></td>
+              <td>Quy trình &amp; Hiệu suất Team</td>
+              <td>Điều phối các buổi họp Scrum (Daily, Planning, Retrospective), hỗ trợ gỡ bỏ rào cản (Blocker) để team làm việc tập trung, đảm bảo mọi người tuân thủ đúng quy trình Agile.</td>
+            </tr>
+            <tr>
+              <td><strong>Tech Lead / Team Leader</strong></td>
+              <td>Kỹ thuật &amp; Chất lượng Code</td>
+              <td>Định hướng kiến trúc hệ thống (HLD), chọn công nghệ, thiết kế Database/API, duyệt Pull Request (Code Review), giải quyết bài toán kỹ thuật khó và hướng dẫn các Dev cấp dưới.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>A.2.2. Phân Tích Nghiệp Vụ (BA) Là Ai? Trách Nhiệm Cụ Thể Gồm Những Gì?</h3>
+      <ul>
+        <li><strong>BA (Business Analyst — Chuyên viên phân tích nghiệp vụ) là ai?</strong> Là <em>"người phiên dịch hai chiều"</em> đứng giữa Khách hàng/PO (nắm bài toán kinh doanh) và Đội kỹ thuật Dev/QA (người viết code &amp; kiểm thử).</li>
+        <li><strong>Trách nhiệm cụ thể của BA:</strong>
+          (1) Khảo sát, phỏng vấn khách hàng để nắm quy trình hiện tại (<strong>As-Is</strong>) và thiết kế quy trình mới (<strong>To-Be</strong>);
+          (2) Viết bộ tài liệu đặc tả (<strong>BRD, SRS/FRD, User Story + AC, Wireframe</strong>) rõ ràng, không mơ hồ;
+          (3) Tổ chức họp giải thích yêu cầu cho Dev/QA, giải đáp các tình huống ngoại lệ (Edge cases) trong lúc code;
+          (4) Kiểm soát yêu cầu phát sinh (<strong>Change Request</strong>) và hỗ trợ khách hàng kiểm thử nghiệm thu (<strong>UAT</strong>).</li>
+        <li><strong>Phân loại thực tế:</strong> <strong>IT BA</strong> thường làm sâu về hệ thống, quy trình nghiệp vụ, cấu trúc dữ liệu, API (ví dụ dự án ERP, SAP, MES); còn <strong>Product BA</strong> tập trung nhiều vào hành vi người dùng và tối ưu tính năng sản phẩm.</li>
+      </ul>
+
+      <h3>A.2.3. Công Việc &amp; Trách Nhiệm Của Các Vị Trí Kỹ Thuật &amp; Chất Lượng</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:170px;">Vị trí</th>
+              <th>Công việc &amp; Trách nhiệm chính</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>UI/UX Designer</strong></td>
+              <td>Nghiên cứu hành vi người dùng (UX), phác thảo luồng màn hình và thiết kế giao diện hoàn chỉnh (UI) trên Figma kèm bộ màu sắc/font chữ chuẩn cho Frontend Dev.</td>
+            </tr>
+            <tr>
+              <td><strong>Developer (BE / FE / Mobile)</strong></td>
+              <td><strong>Backend (.NET/Java/Node):</strong> Thiết kế DB, viết API, xử lý logic &amp; bảo mật. <strong>Frontend (React/Vue):</strong> Cắt giao diện từ Figma, kết nối API. Cả hai đều phải viết Unit Test, tạo Pull Request và sửa lỗi (Fix Bug).</td>
+            </tr>
+            <tr>
+              <td><strong>QA / QC (Tester)</strong></td>
+              <td>Đọc SRS/AC của BA để viết Test Plan &amp; Test Case; kiểm thử tính năng trên môi trường Staging, log Bug chi tiết và thực hiện kiểm thử hồi quy (Regression Test) trước khi phát hành.</td>
+            </tr>
+            <tr>
+              <td><strong>DevOps Engineer</strong></td>
+              <td>Thiết lập hạ tầng Server/Cloud, đóng gói Docker, xây dựng đường ống tự động hóa build/deploy (CI/CD), giám sát hiệu năng và sao lưu dữ liệu định kỳ.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">📌 Định hướng tài liệu:</div>
+        Phiên bản hiện tại tập trung đi sâu <strong>Chuyên sâu cho BA (Phần 4)</strong>. Tài liệu chi tiết cho <strong>Developer (.NET/FE), QA/Tester và DevOps</strong> sẽ được mở rộng bổ sung ở các giai đoạn tiếp theo.
+      </div>
+    </section>
+    <section id="phan-3" class="module-section">
+      <div class="module-header">
+        <span class="module-num">A.3</span>
+        <h2>A.3. Tài Liệu Cho Từng Vị Trí (Từ A–Z)</h2>
+      </div>
+
+      <p>
+        Một dự án phần mềm chuyên nghiệp luôn có hệ thống tài liệu đi kèm theo từng giai đoạn — từ lúc hình thành ý tưởng (<strong>As-Is / To-Be Process</strong>) đến khi thiết kế kỹ thuật, kiểm thử và nghiệm thu bàn giao.
+      </p>
+
+      <!-- HÌNH MINH HỌA 7.1: DÒNG CHẢY TÀI LIỆU -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 215" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="20" width="195" height="170" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+          <text x="112" y="48" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#5b21b6">1. Khởi Tạo &amp; Nghiệp Vụ</text>
+          <text x="112" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• As-Is Process</text>
+          <text x="112" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• To-Be Process</text>
+          <text x="112" y="121" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• BRD / Project Charter</text>
+          <rect x="35" y="142" width="154" height="32" rx="6" fill="#ede9fe"/>
+          <text x="112" y="162" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5b21b6">Chủ trì: BA &amp; PM</text>
+
+          <line x1="212" y1="105" x2="228" y2="105" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <rect x="232" y="20" width="195" height="170" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+          <text x="329" y="48" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#1e3a8a">2. Đặc Tả &amp; Giao Diện</text>
+          <text x="329" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• SRS / FRD</text>
+          <text x="329" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• User Story + AC</text>
+          <text x="329" y="121" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• Wireframe / UI Figma</text>
+          <rect x="252" y="142" width="154" height="32" rx="6" fill="#dbeafe"/>
+          <text x="329" y="162" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1e40af">Chủ trì: BA &amp; UI/UX</text>
+
+          <line x1="429" y1="105" x2="445" y2="105" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <rect x="449" y="20" width="195" height="170" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+          <text x="546" y="48" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#065f46">3. Thiết Kế Kỹ Thuật</text>
+          <text x="546" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• HLD (Kiến trúc tổng thể)</text>
+          <text x="546" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• ERD (Thiết kế DB)</text>
+          <text x="546" y="121" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• API Spec (Swagger) &amp; LLD</text>
+          <rect x="469" y="142" width="154" height="32" rx="6" fill="#d1fae5"/>
+          <text x="546" y="162" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#065f46">Chủ trì: Tech Lead / Dev</text>
+
+          <line x1="646" y1="105" x2="662" y2="105" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <rect x="666" y="20" width="180" height="170" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="756" y="48" text-anchor="middle" font-weight="bold" font-size="13.5" fill="#92400e">4. Kiểm Thử &amp; Kết Thúc</text>
+          <text x="756" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• Test Plan &amp; Test Case</text>
+          <text x="756" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• Deployment Runbook</text>
+          <text x="756" y="121" text-anchor="middle" font-size="12" font-weight="600" fill="#1e293b">• UAT Sign-off &amp; Manual</text>
+          <rect x="682" y="142" width="148" height="32" rx="6" fill="#fef3c7"/>
+          <text x="756" y="162" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#92400e">Chủ trì: QA, DevOps, BA</text>
+        </svg>
+        <div class="figure-caption">Hình 3.1: Chuỗi tài liệu chuẩn theo từng giai đoạn từ lúc khởi tạo đến khi đóng dự án</div>
+      </div>
+
+      <h3>A.3.1. Ma Trận Phân Công Tài Liệu (Ai Làm &amp; Ai Duyệt?)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Giai đoạn</th>
+              <th>Tên Tài Liệu</th>
+              <th>Mục Đích Chính</th>
+              <th>Người Làm Chính</th>
+              <th>Phối Hợp / Duyệt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-purple">1. Khởi tạo</span></td>
+              <td><strong>Project Charter &amp; As-Is / To-Be</strong></td>
+              <td>Xác định mục tiêu dự án, phân tích quy trình cũ (As-Is) và thiết kế quy trình tối ưu mới (To-Be).</td>
+              <td><strong>PM &amp; BA</strong></td>
+              <td>Khách hàng / PO duyệt</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-purple">1. Khởi tạo</span></td>
+              <td><strong>BRD</strong></td>
+              <td>Chốt phạm vi (In-Scope / Out-of-Scope), lợi ích kinh doanh, các KPI cần đạt.</td>
+              <td><strong>BA</strong></td>
+              <td>PM &amp; Khách hàng ký</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-blue">2. Đặc tả</span></td>
+              <td><strong>SRS / User Story + AC</strong></td>
+              <td>Đặc tả chi tiết luồng xử lý, quy tắc nghiệp vụ, bảng trường dữ liệu và các trường hợp ngoại lệ.</td>
+              <td><strong>BA</strong></td>
+              <td>Tech Lead &amp; QA review</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-blue">2. Đặc tả</span></td>
+              <td><strong>Wireframe / UI Figma</strong></td>
+              <td>Phác thảo bố cục màn hình và thiết kế giao diện chi tiết từng trạng thái nút, thông báo lỗi.</td>
+              <td><strong>BA / UI-UX Designer</strong></td>
+              <td>PO chốt, Frontend Dev xem</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">3. Kỹ thuật</span></td>
+              <td><strong>HLD &amp; LLD</strong></td>
+              <td>Thiết kế kiến trúc hệ thống (HLD) và thiết kế chi tiết luồng code/tích hợp bên trong (LLD).</td>
+              <td><strong>Tech Lead / Architect</strong></td>
+              <td>PM &amp; DevOps review</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">3. Kỹ thuật</span></td>
+              <td><strong>ERD (Database Design)</strong></td>
+              <td>Thiết kế bảng, cột, khóa chính/ngoại, kiểu dữ liệu và đánh Index tối ưu hiệu năng.</td>
+              <td><strong>Backend Lead (.NET)</strong></td>
+              <td>BA đối chiếu đủ dữ liệu</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-green">3. Kỹ thuật</span></td>
+              <td><strong>API Spec (Swagger)</strong></td>
+              <td>Định nghĩa URL Endpoint, JSON Request/Response, mã lỗi HTTP để Frontend/Mobile làm song song.</td>
+              <td><strong>Backend Dev</strong></td>
+              <td>Frontend Dev &amp; QA dùng</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-amber">4. Kết thúc</span></td>
+              <td><strong>Test Plan &amp; Test Case</strong></td>
+              <td>Kế hoạch kiểm thử và danh sách kịch bản kiểm thử đúng/sai/biên trước khi phát hành.</td>
+              <td><strong>QA / Tester</strong></td>
+              <td>BA review độ phủ</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-amber">4. Kết thúc</span></td>
+              <td><strong>Deployment Runbook</strong></td>
+              <td>Hướng dẫn cài đặt môi trường, Docker, CI/CD, biến môi trường và cách khôi phục (Rollback) khi sự cố.</td>
+              <td><strong>DevOps Engineer</strong></td>
+              <td>Backend Dev hỗ trợ</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-amber">4. Kết thúc</span></td>
+              <td><strong>UAT Sign-off &amp; User Manual</strong></td>
+              <td>Biên bản nghiệm thu bàn giao cho khách hàng ký kết thúc dự án và tài liệu hướng dẫn sử dụng.</td>
+              <td><strong>BA &amp; PM</strong></td>
+              <td>Khách hàng ký nghiệm thu</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- ==================== MODULE 8: DỰ ÁN MẪU MES (THEO TO-BE PROCESS SAP B1 & POP) ==================== -->
+    <section id="phan-4" class="module-section">
+      <div class="module-header">
+        <span class="module-num">B.1</span>
+        <h2>B.1. BA (Business Analyst)</h2>
+      </div>
+
+      <p>
+        <strong>BA là "người phiên dịch" hai chiều</strong>: dịch mong muốn kinh doanh của Khách hàng thành đặc tả logic chính xác cho Dev/QA làm, và đảm bảo sản phẩm làm ra giải quyết đúng nỗi đau của khách hàng.
+      </p>
+
+      <h3 id="ba-lo-trinh">B.1.1. Tổng Quan Công Việc Của BA Trong Dự Án</h3>
+
+      <!-- HÌNH MINH HỌA 4: QUY TRÌNH BA -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 175" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="25" width="190" height="120" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+          <text x="110" y="54" text-anchor="middle" font-weight="bold" font-size="14" fill="#5b21b6">GĐ 1: Khởi tạo &amp; Khảo sát</text>
+          <text x="110" y="78" text-anchor="middle" font-size="11.5" fill="#475569">• Hỏi 5W1H với Khách hàng</text>
+          <text x="110" y="98" text-anchor="middle" font-size="11.5" fill="#475569">• Phân biệt Want vs Need</text>
+          <text x="110" y="118" text-anchor="middle" font-size="11.5" fill="#475569">• Viết BRD / Scope tổng quan</text>
+
+          <line x1="208" y1="85" x2="228" y2="85" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <rect x="232" y="25" width="190" height="120" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+          <text x="327" y="54" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e3a8a">GĐ 2: Phân tích &amp; Đặc tả</text>
+          <text x="327" y="78" text-anchor="middle" font-size="11.5" fill="#475569">• Vẽ Flowchart, Wireframe</text>
+          <text x="327" y="98" text-anchor="middle" font-size="11.5" fill="#475569">• Viết SRS / User Story + AC</text>
+          <text x="327" y="118" text-anchor="middle" font-size="11.5" fill="#475569">• Định nghĩa trường dữ liệu</text>
+
+          <line x1="425" y1="85" x2="445" y2="85" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <rect x="449" y="25" width="190" height="120" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+          <text x="544" y="54" text-anchor="middle" font-weight="bold" font-size="14" fill="#065f46">GĐ 3: Chuyển giao &amp; Hỗ trợ</text>
+          <text x="544" y="78" text-anchor="middle" font-size="11.5" fill="#475569">• Họp Grooming giải thích Dev/QA</text>
+          <text x="544" y="98" text-anchor="middle" font-size="11.5" fill="#475569">• Giải đáp Edge Cases phát sinh</text>
+          <text x="544" y="118" text-anchor="middle" font-size="11.5" fill="#475569">• Kiểm soát Change Request</text>
+
+          <line x1="642" y1="85" x2="662" y2="85" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+          <rect x="666" y="25" width="180" height="120" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="756" y="54" text-anchor="middle" font-weight="bold" font-size="14" fill="#92400e">GĐ 4: UAT &amp; Bàn giao</text>
+          <text x="756" y="78" text-anchor="middle" font-size="11.5" fill="#475569">• Test chéo trên Staging</text>
+          <text x="756" y="98" text-anchor="middle" font-size="11.5" fill="#475569">• Hỗ trợ khách hàng UAT</text>
+          <text x="756" y="118" text-anchor="middle" font-size="11.5" fill="#475569">• Viết User Guide hướng dẫn</text>
+        </svg>
+        <div class="figure-caption">Hình 4.1: Chu trình 4 giai đoạn làm việc chuẩn mực của Business Analyst</div>
+      </div>
+
+      <h3 id="ba-tai-lieu">B.1.2. Tổng Hợp Các Loại Tài Liệu Mà BA Cần Biết</h3>
+      <p>
+        Thay vì ghi nhớ lý thuyết khô khan, sơ đồ trực quan dưới đây tóm tắt trọn bộ <strong>7 loại tài liệu BA</strong> theo đúng trình tự từ lúc tìm hiểu bài toán kinh doanh đến khi phác thảo giao diện cho đội kỹ thuật:
+      </p>
+
+      <!-- HÌNH MINH HỌA 4.2: INFOGRAPHIC 7 LOẠI TÀI LIỆU BA (SKETCHNOTE STYLE) -->
+      <div class="figure-box" style="padding:14px;background:#ffffff;">
+        <svg viewBox="0 0 920 390" xmlns="http://www.w3.org/2000/svg">
+          <!-- Notebook Background & Grid Lines -->
+          <rect x="8" y="8" width="904" height="374" rx="14" fill="#fffdf9" stroke="#cbd5e1" stroke-width="2"/>
+          <g stroke="#f1f5f9" stroke-width="1">
+            <line x1="38" y1="60" x2="900" y2="60"/>
+            <line x1="38" y1="100" x2="900" y2="100"/>
+            <line x1="38" y1="140" x2="900" y2="140"/>
+            <line x1="38" y1="180" x2="900" y2="180"/>
+            <line x1="38" y1="220" x2="900" y2="220"/>
+            <line x1="38" y1="260" x2="900" y2="260"/>
+            <line x1="38" y1="300" x2="900" y2="300"/>
+            <line x1="38" y1="340" x2="900" y2="340"/>
+          </g>
+          <!-- Spiral Rings on Left -->
+          <g fill="#475569">
+            <rect x="2" y="28" width="16" height="6" rx="3"/><rect x="2" y="52" width="16" height="6" rx="3"/>
+            <rect x="2" y="76" width="16" height="6" rx="3"/><rect x="2" y="100" width="16" height="6" rx="3"/>
+            <rect x="2" y="124" width="16" height="6" rx="3"/><rect x="2" y="148" width="16" height="6" rx="3"/>
+            <rect x="2" y="172" width="16" height="6" rx="3"/><rect x="2" y="196" width="16" height="6" rx="3"/>
+            <rect x="2" y="220" width="16" height="6" rx="3"/><rect x="2" y="244" width="16" height="6" rx="3"/>
+            <rect x="2" y="268" width="16" height="6" rx="3"/><rect x="2" y="292" width="16" height="6" rx="3"/>
+            <rect x="2" y="316" width="16" height="6" rx="3"/><rect x="2" y="340" width="16" height="6" rx="3"/>
+          </g>
+
+          <!-- Lightbulb Icon Left -->
+          <circle cx="95" cy="46" r="16" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+          <path d="M88 62 h14 v6 h-14 z" fill="#94a3b8"/>
+          <line x1="70" y1="38" x2="75" y2="41" stroke="#eab308" stroke-width="2"/>
+          <line x1="95" y1="22" x2="95" y2="27" stroke="#eab308" stroke-width="2"/>
+          <line x1="115" y1="41" x2="120" y2="38" stroke="#eab308" stroke-width="2"/>
+
+          <!-- Title -->
+          <text x="460" y="52" text-anchor="middle" font-size="27" font-weight="900" fill="#1e293b" letter-spacing="1">7 LOẠI TÀI LIỆU BA</text>
+          <path d="M275 62 Q460 57 645 62" stroke="#e11d48" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+          <!-- Target Icon Right -->
+          <circle cx="825" cy="46" r="19" fill="#ffffff" stroke="#dc2626" stroke-width="3"/>
+          <circle cx="825" cy="46" r="11" fill="#ffffff" stroke="#dc2626" stroke-width="3"/>
+          <circle cx="825" cy="46" r="4" fill="#dc2626"/>
+          <line x1="825" y1="46" x2="848" y2="23" stroke="#1e293b" stroke-width="2.5"/>
+
+          <!-- STEP 1: BRD -->
+          <circle cx="98" cy="100" r="14" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="98" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#2563eb">1</text>
+          <rect x="46" y="122" width="104" height="106" rx="10" fill="#ffffff" stroke="#3b82f6" stroke-width="2"/>
+          <rect x="74" y="136" width="48" height="62" rx="4" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+          <rect x="88" y="132" width="20" height="8" rx="3" fill="#94a3b8"/>
+          <circle cx="98" cy="158" r="11" fill="#fde047" stroke="#334155" stroke-width="1.4"/>
+          <path d="M98 158 L98 147 A11 11 0 0 1 108 162 Z" fill="#60a5fa"/>
+          <line x1="82" y1="178" x2="114" y2="178" stroke="#64748b" stroke-width="2"/>
+          <line x1="82" y1="186" x2="108" y2="186" stroke="#64748b" stroke-width="2"/>
+          <text x="98" y="250" text-anchor="middle" font-weight="800" font-size="13.5" fill="#1e3a8a">BRD</text>
+          <text x="98" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Hiểu bài toán</text>
+          <text x="98" y="324" text-anchor="middle" font-size="10.5" fill="#475569">và mục tiêu</text>
+          <text x="98" y="338" text-anchor="middle" font-size="10.5" fill="#475569">kinh doanh</text>
+
+          <path d="M153 175 L164 175" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- STEP 2: SRS (HIGHLIGHTED) -->
+          <circle cx="220" cy="100" r="14" fill="#16a34a" stroke="#16a34a" stroke-width="2"/>
+          <text x="220" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#ffffff">2</text>
+          <rect x="168" y="122" width="104" height="106" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="3"/>
+          <rect x="182" y="114" width="76" height="15" rx="7" fill="#ea580c"/>
+          <text x="220" y="125" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#ffffff">★ CỐT LÕI</text>
+          <path d="M196 138 h36 l12 12 v52 h-48 z" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+          <line x1="204" y1="158" x2="236" y2="158" stroke="#64748b" stroke-width="2"/>
+          <line x1="204" y1="168" x2="236" y2="168" stroke="#64748b" stroke-width="2"/>
+          <line x1="204" y1="178" x2="222" y2="178" stroke="#64748b" stroke-width="2"/>
+          <rect x="224" y="178" width="14" height="14" rx="2" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="220" y="250" text-anchor="middle" font-weight="800" font-size="13.5" fill="#15803d">SRS</text>
+          <text x="220" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Đặc tả yêu cầu</text>
+          <text x="220" y="324" text-anchor="middle" font-size="10.5" fill="#475569">hệ thống</text>
+          <text x="220" y="338" text-anchor="middle" font-size="10.5" fill="#475569">(CN &amp; Phi CN)</text>
+
+          <path d="M275 175 L286 175" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- STEP 3: FRS -->
+          <circle cx="342" cy="100" r="14" fill="#ffffff" stroke="#ea580c" stroke-width="2"/>
+          <text x="342" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#ea580c">3</text>
+          <rect x="290" y="122" width="104" height="106" rx="10" fill="#ffffff" stroke="#f97316" stroke-width="2"/>
+          <path d="M318 138 h36 l12 12 v52 h-48 z" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+          <rect x="324" y="152" width="10" height="10" rx="2" fill="#fed7aa" stroke="#ea580c"/>
+          <line x1="338" y1="157" x2="358" y2="157" stroke="#64748b" stroke-width="2"/>
+          <rect x="324" y="168" width="10" height="10" rx="2" fill="#fed7aa" stroke="#ea580c"/>
+          <line x1="338" y1="173" x2="358" y2="173" stroke="#64748b" stroke-width="2"/>
+          <rect x="324" y="184" width="10" height="10" rx="2" fill="#fed7aa" stroke="#ea580c"/>
+          <line x1="338" y1="189" x2="358" y2="189" stroke="#64748b" stroke-width="2"/>
+          <text x="342" y="250" text-anchor="middle" font-weight="800" font-size="13.5" fill="#c2410c">FRS / FRD</text>
+          <text x="342" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Đặc tả yêu cầu</text>
+          <text x="342" y="324" text-anchor="middle" font-size="10.5" fill="#475569">chức năng</text>
+
+          <path d="M397 175 L408 175" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- STEP 4: USE CASE -->
+          <circle cx="464" cy="100" r="14" fill="#ffffff" stroke="#7c3aed" stroke-width="2"/>
+          <text x="464" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#7c3aed">4</text>
+          <rect x="412" y="122" width="104" height="106" rx="10" fill="#ffffff" stroke="#8b5cf6" stroke-width="2"/>
+          <circle cx="434" cy="162" r="7" fill="#ffffff" stroke="#334155" stroke-width="1.8"/>
+          <line x1="434" y1="169" x2="434" y2="192" stroke="#334155" stroke-width="1.8"/>
+          <line x1="425" y1="178" x2="443" y2="178" stroke="#334155" stroke-width="1.8"/>
+          <line x1="443" y1="172" x2="466" y2="152" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="443" y1="175" x2="466" y2="175" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="443" y1="178" x2="466" y2="198" stroke="#64748b" stroke-width="1.5"/>
+          <ellipse cx="484" cy="152" rx="18" ry="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+          <ellipse cx="484" cy="175" rx="18" ry="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+          <ellipse cx="484" cy="198" rx="18" ry="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+          <text x="464" y="246" text-anchor="middle" font-weight="800" font-size="12" fill="#5b21b6">USE CASE</text>
+          <text x="464" y="261" text-anchor="middle" font-weight="800" font-size="12" fill="#5b21b6">DOCUMENT</text>
+          <text x="464" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Tương tác giữa</text>
+          <text x="464" y="324" text-anchor="middle" font-size="10.5" fill="#475569">người dùng &amp;</text>
+          <text x="464" y="338" text-anchor="middle" font-size="10.5" fill="#475569">hệ thống</text>
+
+          <path d="M519 175 L530 175" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- STEP 5: USER STORY (HIGHLIGHTED) -->
+          <circle cx="586" cy="100" r="14" fill="#2563eb" stroke="#2563eb" stroke-width="2"/>
+          <text x="586" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#ffffff">5</text>
+          <rect x="534" y="122" width="104" height="106" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+          <rect x="548" y="114" width="76" height="15" rx="7" fill="#ea580c"/>
+          <text x="586" y="125" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#ffffff">★ HAY DÙNG</text>
+          <rect x="558" y="138" width="56" height="68" rx="5" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+          <circle cx="572" cy="154" r="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+          <line x1="584" y1="154" x2="606" y2="154" stroke="#64748b" stroke-width="2"/>
+          <line x1="566" y1="168" x2="606" y2="168" stroke="#64748b" stroke-width="2"/>
+          <rect x="566" y="180" width="16" height="16" rx="2" fill="#fde047" stroke="#ca8a04"/>
+          <rect x="588" y="180" width="16" height="16" rx="2" fill="#bfdbfe" stroke="#2563eb"/>
+          <text x="586" y="250" text-anchor="middle" font-weight="800" font-size="13" fill="#1d4ed8">USER STORY</text>
+          <text x="586" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Yêu cầu ngắn gọn</text>
+          <text x="586" y="324" text-anchor="middle" font-size="10.5" fill="#475569">theo góc nhìn</text>
+          <text x="586" y="338" text-anchor="middle" font-size="10.5" fill="#475569">người dùng</text>
+
+          <path d="M641 175 L652 175" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- STEP 6: PROCESS FLOW (HIGHLIGHTED) -->
+          <circle cx="708" cy="100" r="14" fill="#db2777" stroke="#db2777" stroke-width="2"/>
+          <text x="708" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#ffffff">6</text>
+          <rect x="656" y="122" width="104" height="106" rx="10" fill="#fdf2f8" stroke="#db2777" stroke-width="3"/>
+          <rect x="670" y="114" width="76" height="15" rx="7" fill="#ea580c"/>
+          <text x="708" y="125" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#ffffff">★ BẮT BUỘC</text>
+          <ellipse cx="708" cy="142" rx="16" ry="7" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+          <line x1="708" y1="149" x2="708" y2="156" stroke="#334155" stroke-width="1.5"/>
+          <rect x="692" y="156" width="32" height="14" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+          <line x1="708" y1="170" x2="708" y2="177" stroke="#334155" stroke-width="1.5"/>
+          <polygon points="708,177 724,187 708,197 692,187" fill="#fef08a" stroke="#ca8a04" stroke-width="1.5"/>
+          <line x1="692" y1="187" x2="682" y2="202" stroke="#334155" stroke-width="1.5"/>
+          <line x1="724" y1="187" x2="734" y2="202" stroke="#334155" stroke-width="1.5"/>
+          <rect x="670" y="202" width="24" height="12" rx="2" fill="#fecaca" stroke="#dc2626"/>
+          <rect x="722" y="202" width="24" height="12" rx="2" fill="#fecaca" stroke="#dc2626"/>
+          <text x="708" y="246" text-anchor="middle" font-weight="800" font-size="11.5" fill="#be185d">PROCESS FLOW</text>
+          <text x="708" y="261" text-anchor="middle" font-weight="800" font-size="11.5" fill="#be185d">DIAGRAM</text>
+          <text x="708" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Sơ đồ quy trình</text>
+          <text x="708" y="324" text-anchor="middle" font-size="10.5" fill="#475569">nghiệp vụ</text>
+
+          <path d="M763 175 L774 175" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- STEP 7: WIREFRAME (HIGHLIGHTED) -->
+          <circle cx="830" cy="100" r="14" fill="#0d9488" stroke="#0d9488" stroke-width="2"/>
+          <text x="830" y="105" text-anchor="middle" font-weight="bold" font-size="13" fill="#ffffff">7</text>
+          <rect x="778" y="122" width="104" height="106" rx="10" fill="#f0fdfa" stroke="#0d9488" stroke-width="3"/>
+          <rect x="792" y="114" width="76" height="15" rx="7" fill="#ea580c"/>
+          <text x="830" y="125" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#ffffff">★ BẮT BUỘC</text>
+          <rect x="794" y="140" width="72" height="66" rx="4" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+          <line x1="794" y1="150" x2="866" y2="150" stroke="#334155" stroke-width="1.5"/>
+          <rect x="802" y="156" width="56" height="20" fill="#ffffff" stroke="#64748b"/>
+          <line x1="802" y1="156" x2="858" y2="176" stroke="#94a3b8"/>
+          <line x1="858" y1="156" x2="802" y2="176" stroke="#94a3b8"/>
+          <rect x="802" y="182" width="16" height="16" fill="#ffffff" stroke="#64748b"/>
+          <rect x="822" y="182" width="16" height="16" fill="#ffffff" stroke="#64748b"/>
+          <rect x="842" y="182" width="16" height="16" fill="#ffffff" stroke="#64748b"/>
+          <text x="830" y="246" text-anchor="middle" font-weight="800" font-size="11.5" fill="#0f766e">WIREFRAME /</text>
+          <text x="830" y="261" text-anchor="middle" font-weight="800" font-size="11.5" fill="#0f766e">MOCKUP</text>
+          <text x="830" y="310" text-anchor="middle" font-size="10.5" fill="#475569">Giao diện mẫu</text>
+          <text x="830" y="324" text-anchor="middle" font-size="10.5" fill="#475569">minh họa</text>
+
+          <!-- Bottom Timeline Axis & Dots -->
+          <line x1="46" y1="284" x2="880" y2="284" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+          <circle cx="98" cy="284" r="6" fill="#2563eb"/>
+          <circle cx="220" cy="284" r="6" fill="#16a34a"/>
+          <circle cx="342" cy="284" r="6" fill="#ea580c"/>
+          <circle cx="464" cy="284" r="6" fill="#7c3aed"/>
+          <circle cx="586" cy="284" r="6" fill="#2563eb"/>
+          <circle cx="708" cy="284" r="6" fill="#db2777"/>
+          <circle cx="830" cy="284" r="6" fill="#0d9488"/>
+        </svg>
+        <div class="figure-caption">Hình 2.1.2: Infographic 7 loại tài liệu cốt lõi của BA (Nhấn mạnh ★ các tài liệu hay dùng &amp; cần lưu ý nhất)</div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">💡 Lưu ý thực chiến: Không cần viết đủ cả 7 loại — Hãy tập trung vào 4 tài liệu "Xương Sống"!</div>
+        <ul style="margin-bottom:0;">
+          <li><strong>★ Bắt buộc &amp; Dùng nhiều nhất (90% dự án):</strong> <strong>Process Flow / To-Be Process</strong> (chốt luồng) + <strong>Wireframe / Figma</strong> (chốt giao diện) + <strong>User Story + AC</strong> (nếu chạy Agile) hoặc <strong>SRS</strong> kèm <strong>Data Dictionary</strong> (nếu làm Enterprise/Outsource).</li>
+          <li><strong>Thường gộp hoặc ít viết rời:</strong> <strong>FRS/FRD</strong> thường được <em>gộp thẳng vào SRS</em>; <strong>Use Case dạng văn bản dài</strong> ít viết riêng mà thay bằng <em>Flowchart + User Story + AC</em>; <strong>BRD</strong> chỉ làm kỹ khi ký hợp đồng chốt Scope với khách hàng.</li>
+        </ul>
+      </div>
+
+      <h4>B.1.2.1. Case Study Xuyên Suốt: Chuyển Đổi Số Phòng Ban Quản Lý Tài Sản (AssetTrack)</h4>
+
+      <div class="callout">
+        <div class="callout-title">📌 ĐỀ BÀI CHUYỂN ĐỔI SỐ THỰC TẾ TỪ PHÒNG QUẢN LÝ TÀI SẢN:</div>
+        <em>"Phòng Quản lý Tài sản đang quản lý hơn 500 thiết bị (Laptop, Màn hình, Thiết bị văn phòng) bằng sổ sách và file Excel rời rạc. Mỗi lần cấp phát cho nhân viên mới, kiểm kê cuối năm hoặc thu hồi khi nghỉ việc đều mất nhiều ngày, dễ thất thoát và không biết ai đang giữ máy nào. Hãy số hóa toàn bộ quy trình này thành hệ thống <strong>AssetTrack</strong>."</em>
+      </div>
+
+      <!-- BƯỚC 0: AS-IS & TO-BE (KHỞI ĐẦU BẮT BUỘC) -->
+      <div class="card" style="margin-bottom:14px; border-left: 4px solid var(--accent);">
+        <div class="card-title">Bước 0 (Khởi Đầu Bắt Buộc): Phân Tích Hiện Trạng (As-Is) &amp; Đề Xuất Quy Trình Mới (To-Be)</div>
+        <p><strong>Tại sao phải làm đầu tiên?</strong> Với mọi dự án chuyển đổi số, trước khi viết đặc tả tính năng, BA phải khảo sát cách làm thủ công hiện tại (<strong>As-Is</strong>) để chỉ ra điểm nghẽn, từ đó thiết kế quy trình số hóa tối ưu (<strong>To-Be</strong>) cho Ban Giám Đốc ký duyệt:</p>
+        <div class="grid-2" style="margin-bottom:0;">
+          <div class="card" style="background:var(--bg-surface); border-color:#fca5a5;">
+            <div class="card-title" style="color:#991b1b;">❌ Quy trình cũ (As-Is — Thủ công)</div>
+            <ul style="margin-bottom:0;">
+              <li>In biên bản giấy ký tay khi giao Laptop, lưu tủ hồ sơ.</li>
+              <li>Cập nhật thủ công vào file Excel cá nhân → dễ ghi đè, sai lệch số liệu.</li>
+              <li>Kiểm kê cuối năm phải đi từng bàn đọc số Serial, đối chiếu mất 5–7 ngày.</li>
+            </ul>
+          </div>
+          <div class="card" style="background:var(--bg-surface); border-color:#6ee7b7;">
+            <div class="card-title" style="color:#065f46;">✅ Quy trình mới (To-Be — Số hóa)</div>
+            <ul style="margin-bottom:0;">
+              <li>Mỗi tài sản gắn 1 tem <strong>Mã QR</strong> duy nhất định danh trên hệ thống.</li>
+              <li>Cấp phát &amp; Ký nhận điện tử trực tiếp trên Web/App, tự động lưu lịch sử.</li>
+              <li>Kiểm kê bằng điện thoại quét QR → Tự động chốt báo cáo trong 2 giờ.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p>Sau khi thống nhất <strong>As-Is / To-Be</strong>, BA triển khai trọn bộ <strong>7 loại tài liệu</strong> (khớp đúng thứ tự 1 → 7 trên Infographic) cho bài toán <strong>Quản Lý Tài Sản</strong>:</p>
+
+      <!-- 1. BRD -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">1. BRD (Business Requirements Document) — Hiểu Bài Toán &amp; Mục Tiêu Kinh Doanh</div>
+        <p><strong>BA làm gì?</strong> Chốt mục tiêu kinh doanh (Why), phạm vi dự án và phân rã 3 nhóm người dùng (User Classes):</p>
+        <div class="code-wrap" style="margin:8px 0 0;">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>[Trích đoạn BRD - Dự án Chuyển đổi số Quản Lý Tài Sản (AssetTrack)]
+• Mục tiêu (KPI): Giảm 100% thất thoát tài sản chưa rõ người giữ; rút ngắn thời gian kiểm kê từ 7 ngày xuống 2 giờ.
+• Nhóm người dùng (User Classes): (1) Nhân viên nhận tài sản, (2) Chuyên viên Quản lý Tài sản, (3) IT / Admin.
+• Trong phạm vi (In-Scope): Quản lý danh mục tài sản + tem QR, Cấp phát, Kiểm kê bằng QR, Thu hồi khi nghỉ việc.
+• Ngoài phạm vi (Out-of-Scope GĐ 1): Chưa tích hợp hạch toán khấu hao tự động sang phần mềm Kế toán.</code></pre>
+        </div>
+      </div>
+
+      <!-- 2. SRS -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">2. SRS (Software Requirements Specification) <span class="hot-tag">★ CỐT LÕI</span> — Yêu Cầu Hệ Thống (Chức Năng &amp; Phi Chức Năng)</div>
+        <p><strong>BA làm gì?</strong> Viết đặc tả tổng thể gồm yêu cầu chức năng (<code>FR</code>) và phi chức năng (<code>NFR/QR</code>: tốc độ quét QR, tính toàn vẹn lịch sử):</p>
+        <div class="table-wrap" style="margin-bottom:0;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:80px;">Mã</th>
+                <th style="width:170px;">Loại yêu cầu</th>
+                <th>Nội dung đặc tả trong SRS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>FR-01</strong></td><td>Chức năng</td><td>Chuyên viên tạo phiếu Cấp phát &amp; sinh mã QR; Nhân viên bấm xác nhận đã nhận thiết bị trên hệ thống.</td></tr>
+              <tr><td><strong>FR-02</strong></td><td>Chức năng</td><td>Quét mã QR bằng camera điện thoại để kiểm kê nhanh và cập nhật trạng thái (Đang dùng / Hỏng / Thất lạc).</td></tr>
+              <tr><td><strong>NFR-01</strong></td><td>Phi chức năng (Hiệu năng)</td><td>Tốc độ nhận diện mã QR và trả về thông tin tài sản phải dưới <strong>1.0 giây</strong>.</td></tr>
+              <tr><td><strong>NFR-02</strong></td><td>Phi chức năng (Audit Log)</td><td>Mọi lịch sử bàn giao, thu hồi tài sản phải được lưu vết bất biến (không cho phép xóa), phục vụ kiểm toán.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. FRS / FRD -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">3. FRS / FRD (Functional Requirement Spec) — Đặc Tả Chức Năng &amp; Data Dictionary</div>
+        <p><strong>BA làm gì?</strong> Quy định chi tiết từng trường dữ liệu trên màn hình <em>Phiếu Cấp Phát Tài Sản</em> để Dev code &amp; QA kiểm tra:</p>
+        <div class="table-wrap" style="margin-bottom:0;">
+          <table>
+            <thead>
+              <tr>
+                <th>Tên trường (UI)</th>
+                <th>Kiểu dữ liệu</th>
+                <th>Bắt buộc</th>
+                <th>Giới hạn / Validate</th>
+                <th>Ghi chú cho Dev</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Mã Tài Sản (Asset Code)</td><td>Text / QR Scan</td><td>Có</td><td>Duy nhất, định dạng <code>AST-YYYY-XXXX</code></td><td>Chỉ cho chọn tài sản có trạng thái = <em>Sẵn sàng (Available)</em></td></tr>
+              <tr><td>Nhân viên nhận</td><td>Dropdown (Search)</td><td>Có</td><td>Nhân viên đang trạng thái <em>Đang làm việc</em></td><td>Lấy đồng bộ từ danh sách Nhân sự</td></tr>
+              <tr><td>Tình trạng lúc giao</td><td>Dropdown + Ảnh</td><td>Có</td><td>Mới 100% / Đã qua sử dụng</td><td>Cho phép đính kèm tối đa 3 ảnh chụp thực tế</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. USE CASE -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">4. Use Case Document — Tương Tác Giữa Người Dùng &amp; Hệ Thống (3 Luồng)</div>
+        <p><strong>BA làm gì?</strong> Vẽ Use Case Diagram cho 3 vai trò và mô tả đủ 3 kịch bản (Chính, Thay thế, Ngoại lệ):</p>
+        <div class="figure-box" style="margin:10px 0;">
+          <svg viewBox="0 0 860 215" xmlns="http://www.w3.org/2000/svg">
+            <rect x="155" y="10" width="550" height="195" rx="10" fill="#f8fafc" stroke="#7c3aed" stroke-dasharray="5,4" stroke-width="1.8"/>
+            <text x="430" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#5b21b6">Hệ Thống Quản Lý Tài Sản (AssetTrack)</text>
+
+            <circle cx="70" cy="78" r="12" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+            <line x1="70" y1="90" x2="70" y2="123" stroke="#2563eb" stroke-width="2"/>
+            <line x1="52" y1="103" x2="88" y2="103" stroke="#2563eb" stroke-width="2"/>
+            <line x1="70" y1="123" x2="55" y2="146" stroke="#2563eb" stroke-width="2"/>
+            <line x1="70" y1="123" x2="85" y2="146" stroke="#2563eb" stroke-width="2"/>
+            <text x="70" y="164" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">QL Tài Sản</text>
+
+            <circle cx="790" cy="60" r="11" fill="#fff" stroke="#059669" stroke-width="2"/>
+            <line x1="790" y1="71" x2="790" y2="99" stroke="#059669" stroke-width="2"/>
+            <line x1="774" y1="82" x2="806" y2="82" stroke="#059669" stroke-width="2"/>
+            <text x="790" y="117" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">Nhân Viên</text>
+
+            <circle cx="790" cy="145" r="11" fill="#fff" stroke="#d97706" stroke-width="2"/>
+            <line x1="790" y1="156" x2="790" y2="184" stroke="#d97706" stroke-width="2"/>
+            <line x1="774" y1="167" x2="806" y2="167" stroke="#d97706" stroke-width="2"/>
+            <text x="790" y="201" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400e">IT / Admin</text>
+
+            <ellipse cx="305" cy="62" rx="98" ry="18" fill="#dbeafe" stroke="#2563eb" stroke-width="1.6"/>
+            <text x="305" y="66" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">Cấp phát &amp; Thu hồi TS</text>
+            <ellipse cx="305" cy="115" rx="98" ry="18" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+            <text x="305" y="119" text-anchor="middle" font-size="11" font-weight="600" fill="#5b21b6">Quét QR Kiểm kê</text>
+            <ellipse cx="305" cy="168" rx="98" ry="18" fill="#fef3c7" stroke="#d97706" stroke-width="1.6"/>
+            <text x="305" y="172" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">Xem Lịch sử &amp; Báo cáo</text>
+
+            <ellipse cx="565" cy="75" rx="98" ry="18" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6"/>
+            <text x="565" y="79" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Ký nhận / Báo hỏng TS</text>
+            <ellipse cx="565" cy="156" rx="98" ry="18" fill="#f1f5f9" stroke="#475569" stroke-width="1.6"/>
+            <text x="565" y="160" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Danh mục &amp; Phân quyền</text>
+
+            <line x1="94" y1="92" x2="207" y2="62" stroke="#334155" stroke-width="1.5"/>
+            <line x1="94" y1="105" x2="207" y2="115" stroke="#334155" stroke-width="1.5"/>
+            <line x1="94" y1="118" x2="207" y2="168" stroke="#334155" stroke-width="1.5"/>
+            <line x1="768" y1="75" x2="663" y2="75" stroke="#334155" stroke-width="1.5"/>
+            <line x1="768" y1="156" x2="663" y2="156" stroke="#334155" stroke-width="1.5"/>
+          </svg>
+          <div class="figure-caption">Hình 2.1.3: Use Case Diagram cho hệ thống Quản Lý Tài Sản (AssetTrack)</div>
+        </div>
+        <p style="margin-bottom:0;"><strong>Đặc tả 3 luồng (Cấp phát tài sản):</strong> <em>Luồng chính:</em> Chọn Laptop trạng thái Sẵn sàng → Giao cho Nhân viên → Nhân viên bấm Ký nhận → Trạng thái đổi thành <em>Đang sử dụng</em>. <em>Luồng thay thế:</em> Chuyển giao trực tiếp từ Nhân viên A sang Nhân viên B. <em>Luồng ngoại lệ:</em> Máy đang báo hỏng/bảo hành → Hệ thống chặn không cho cấp phát.</p>
+      </div>
+
+      <!-- 5. USER STORY -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">5. User Story &amp; Acceptance Criteria <span class="hot-tag">★ HAY DÙNG</span> — Chia Nhỏ Việc Vào Sprint (Agile)</div>
+        <p><strong>BA làm gì?</strong> Viết User Story trên Jira kèm kịch bản <code>Given–When–Then</code> để Dev &amp; QA thực hiện:</p>
+        <div class="code-wrap" style="margin:8px 0 0;">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><code>[User Story - AT-101: Cấp phát &amp; Ký nhận tài sản]
+Là một Chuyên viên Quản lý Tài sản,
+Tôi muốn tạo phiếu cấp phát Laptop theo mã QR và gửi yêu cầu xác nhận cho Nhân viên,
+Để hệ thống ghi nhận chính xác ai đang giữ tài sản và loại bỏ biên bản giấy.
+
+[Acceptance Criteria (AC)]
+Kịch bản 1 (Cấp phát &amp; Ký nhận thành công):
+  GIVEN Laptop "AST-2026-0015" đang ở trạng thái "Sẵn sàng (Available)"
+  WHEN  Chuyên viên chọn giao cho Nhân viên "Nguyễn Văn A" và Nhân viên A bấm "Xác nhận đã nhận"
+  THEN  Trạng thái tài sản chuyển sang "Đang sử dụng", người giữ hiện tại = "Nguyễn Văn A"
+  AND   Hệ thống ghi 1 dòng lịch sử vào Audit Log.
+
+Kịch bản 2 (Chặn cấp phát tài sản đang bảo hành):
+  GIVEN Laptop "AST-2026-0099" đang ở trạng thái "Đang bảo hành"
+  WHEN  Chuyên viên quét mã QR của máy này để tạo phiếu cấp phát
+  THEN  Hệ thống báo lỗi: "Tài sản đang bảo hành, không thể cấp phát."</code></pre>
+        </div>
+      </div>
+
+      <!-- 6. PROCESS FLOW -->
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-title">6. Process Flow Diagram (To-Be Process) <span class="hot-tag">★ BẮT BUỘC</span> — Sơ Đồ Quy Trình Nghiệp Vụ</div>
+        <p><strong>BA làm gì?</strong> Vẽ lưu đồ Swimlane 3 làn cho quy trình số hóa <em>Cấp phát → Kiểm kê QR → Thu hồi</em>:</p>
+        <div class="figure-box" style="margin:10px 0 0;">
+          <svg viewBox="0 0 860 235" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="840" height="68" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+            <text x="22" y="48" font-weight="bold" font-size="12" fill="#1e3a8a">QL Tài Sản</text>
+            <rect x="115" y="21" width="145" height="44" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+            <text x="187" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">1. Nhập kho &amp; In QR</text>
+            <text x="187" y="55" text-anchor="middle" font-size="10" fill="#475569">Tạo phiếu Cấp phát</text>
+            <rect x="525" y="21" width="145" height="44" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.8"/>
+            <text x="597" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400e">4. Quét QR Kiểm kê</text>
+            <text x="597" y="55" text-anchor="middle" font-size="10" fill="#b45309">Thu hồi khi nghỉ việc</text>
+
+            <rect x="10" y="85" width="840" height="70" rx="8" fill="#ecfdf5" stroke="#6ee7b7"/>
+            <text x="22" y="124" font-weight="bold" font-size="12" fill="#065f46">AssetTrack</text>
+            <rect x="290" y="97" width="155" height="46" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="1.8"/>
+            <text x="367" y="117" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">2. Gửi thông báo nhận</text>
+            <text x="367" y="133" text-anchor="middle" font-size="10" fill="#475569">Cập nhật trạng thái &amp; Log</text>
+            <rect x="690" y="97" width="145" height="46" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="1.8"/>
+            <text x="762" y="117" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">5. Chốt Báo Cáo</text>
+            <text x="762" y="133" text-anchor="middle" font-size="10" fill="#047857">Trả về Sẵn sàng / Hỏng</text>
+
+            <rect x="10" y="162" width="840" height="63" rx="8" fill="#f5f3ff" stroke="#c4b5fd"/>
+            <text x="22" y="198" font-weight="bold" font-size="12" fill="#5b21b6">Nhân Viên</text>
+            <rect x="330" y="172" width="185" height="42" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+            <text x="422" y="191" text-anchor="middle" font-size="11" font-weight="bold" fill="#5b21b6">3. Ký Nhận Điện Tử</text>
+            <text x="422" y="206" text-anchor="middle" font-size="10" fill="#475569">Xác nhận đúng thiết bị</text>
+
+            <line x1="260" y1="43" x2="340" y2="95" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow)"/>
+            <line x1="367" y1="143" x2="367" y2="170" stroke="#7c3aed" stroke-width="1.8" marker-end="url(#arrow)"/>
+            <line x1="515" y1="193" x2="597" y2="68" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#arrow)"/>
+            <line x1="670" y1="43" x2="735" y2="95" stroke="#10b981" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+          </svg>
+          <div class="figure-caption">Hình 2.1.4: Sơ đồ To-Be Process (Swimlane) cho quy trình Chuyển đổi số Quản Lý Tài Sản</div>
+        </div>
+      </div>
+
+      <!-- 7. WIREFRAME / MOCKUP -->
+      <div class="card">
+        <div class="card-title">7. Wireframe / Mockup <span class="hot-tag">★ BẮT BUỘC</span> — Giao Diện Mẫu Minh Họa</div>
+        <p><strong>BA làm gì?</strong> Phác thảo 3 màn hình chính (Quét QR &amp; Danh sách → Phiếu Cấp phát → Kiểm kê &amp; Thu hồi) để Khách hàng &amp; Dev chốt trước khi code:</p>
+        <div class="figure-box" style="margin:10px 0 0;">
+          <svg viewBox="0 0 860 270" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="15" width="230" height="238" rx="14" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+            <rect x="20" y="15" width="230" height="32" rx="14" fill="#eff6ff"/>
+            <text x="135" y="36" text-anchor="middle" font-weight="bold" font-size="12" fill="#1e3a8a">Màn hình 1 — Kho &amp; Quét QR</text>
+            <rect x="35" y="58" width="200" height="26" rx="5" fill="#f8fafc" stroke="#94a3b8"/>
+            <text x="45" y="75" font-size="10.5" fill="#64748b">🔍 Tìm mã AST / Quét QR...</text>
+            <rect x="35" y="96" width="200" height="44" rx="6" fill="#ecfdf5" stroke="#10b981"/>
+            <text x="45" y="114" font-size="11" font-weight="bold" fill="#065f46">AST-2026-0015 • Dell XPS 15</text>
+            <text x="45" y="130" font-size="9.5" fill="#047857">Trạng thái: Sẵn sàng • Kho IT</text>
+            <rect x="35" y="148" width="200" height="44" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+            <text x="45" y="166" font-size="11" font-weight="bold" fill="#334155">AST-2026-0016 • Màn hình LG</text>
+            <text x="45" y="182" font-size="9.5" fill="#64748b">Đang dùng: Trần Thị B (BA)</text>
+            <rect x="35" y="204" width="200" height="30" rx="6" fill="#2563eb"/>
+            <text x="135" y="223" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">📷 Quét Mã QR Tài Sản</text>
+
+            <line x1="254" y1="135" x2="292" y2="135" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+            <rect x="296" y="15" width="235" height="238" rx="14" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+            <rect x="296" y="15" width="235" height="32" rx="14" fill="#f5f3ff"/>
+            <text x="413" y="36" text-anchor="middle" font-weight="bold" font-size="12" fill="#5b21b6">Màn hình 2 — Phiếu Cấp Phát</text>
+            <text x="312" y="68" font-size="11" font-weight="bold" fill="#1e3a8a">Mã TS: AST-2026-0015 (Dell XPS)</text>
+            <text x="312" y="90" font-size="10.5" font-weight="600" fill="#475569">Người nhận *</text>
+            <rect x="312" y="96" width="202" height="24" rx="5" fill="#f8fafc" stroke="#94a3b8"/>
+            <text x="320" y="112" font-size="10.5" fill="#334155">Nguyễn Văn A (Dev .NET) ▾</text>
+            <text x="312" y="138" font-size="10.5" font-weight="600" fill="#475569">Tình trạng &amp; Ảnh bàn giao *</text>
+            <rect x="312" y="144" width="202" height="24" rx="5" fill="#f8fafc" stroke="#94a3b8"/>
+            <text x="320" y="160" font-size="10.5" fill="#334155">Mới 100% (Đã kèm 2 ảnh) ▾</text>
+            <rect x="312" y="180" width="12" height="12" rx="2" fill="#2563eb"/>
+            <text x="330" y="190" font-size="10" fill="#475569">Gửi thông báo ký nhận điện tử</text>
+            <rect x="312" y="208" width="202" height="30" rx="6" fill="#2563eb"/>
+            <text x="413" y="227" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">Tạo Phiếu Cấp Phát</text>
+
+            <line x1="535" y1="135" x2="573" y2="135" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+            <rect x="577" y="15" width="265" height="238" rx="14" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+            <rect x="577" y="15" width="265" height="32" rx="14" fill="#fffbeb"/>
+            <text x="709" y="36" text-anchor="middle" font-weight="bold" font-size="12" fill="#92400e">Màn hình 3 — Ký Nhận &amp; Kiểm Kê</text>
+            <rect x="593" y="60" width="233" height="68" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+            <text x="603" y="78" font-size="10.5" font-weight="bold" fill="#1e3a8a">Chờ ký nhận: AST-2026-0015</text>
+            <text x="603" y="94" font-size="10" fill="#475569">Người giao: Phòng QL Tài sản</text>
+            <rect x="603" y="102" width="105" height="20" rx="4" fill="#10b981"/>
+            <text x="655" y="116" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#ffffff">✓ Xác Nhận Đã Nhận</text>
+
+            <rect x="593" y="140" width="233" height="88" rx="6" fill="#fffbeb" stroke="#f59e0b"/>
+            <text x="603" y="158" font-size="10.5" font-weight="bold" fill="#92400e">Tiến độ Kiểm kê Q4/2026</text>
+            <text x="603" y="175" font-size="10" fill="#334155">Đã quét QR: 485 / 500 thiết bị (97%)</text>
+            <rect x="603" y="184" width="210" height="8" rx="4" fill="#fde68a"/>
+            <rect x="603" y="184" width="198" height="8" rx="4" fill="#10b981"/>
+            <text x="603" y="210" font-size="9.5" fill="#b45309">Còn 15 thiết bị chưa quét • Xuất Excel</text>
+          </svg>
+          <div class="figure-caption">Hình 2.1.5: Wireframe 3 màn hình chính của AssetTrack (Xem thêm SRS chi tiết, Release Plan &amp; Test Case tại mục C.5)</div>
+        </div>
+      </div>
+      <h3 id="ba-cr">B.1.3. Quản lý thay đổi yêu cầu (Change Request - CR)</h3>
+      <div class="callout warn">
+        <div class="callout-title">⚠️ Khi khách hàng đổi ý giữa chừng (Scope Creep):</div>
+        Tuyệt đối <strong>không tự ý đồng ý</strong> làm ngay với khách hàng khi tính năng đang code dở. Quy trình chuẩn của BA là:
+        <strong>1. Ghi nhận CR</strong> → <strong>2. Họp với Tech Lead đánh giá ảnh hưởng (Impact Analysis)</strong> → <strong>3. Báo lại PM/Khách hàng về thời gian/chi phí phát sinh</strong> → <strong>4. Chỉ cập nhật tài liệu cho Dev làm khi có xác nhận chốt.</strong>
+      </div>
+
+      <h3 id="ba-ky-nang">B.1.4. Bộ 8 Kỹ Năng Cốt Lõi Của BA / PO Hiện Đại</h3>
+      <p>Để làm việc hiệu quả trong các dự án phần mềm hiện đại và nói chuyện mượt mà với đội kỹ thuật, một BA cần trang bị trọn bộ 8 mảng kiến thức sau:</p>
+
+      <div class="ba-skill-grid">
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#ede9fe;color:#6d28d9;">📄</div>
+          <h5>1. BRD &amp; SRS</h5>
+          <p>Tài liệu yêu cầu nghiệp vụ, đặc tả màn hình, quy tắc nghiệp vụ (Business Rules) và kiểm tra hợp lệ (Validation).</p>
+        </div>
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#dbeafe;color:#2563eb;">📋</div>
+          <h5>2. User Story &amp; Backlog</h5>
+          <p>Viết theo chuẩn <strong>INVEST</strong>, AC dạng Given–When–Then, quản lý trên Jira và Confluence.</p>
+        </div>
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#d1fae5;color:#059669;">🔀</div>
+          <h5>3. BPMN Process</h5>
+          <p>Vẽ quy trình As-Is và To-Be theo chuẩn quốc tế <strong>BPMN 2.0</strong> rõ vai trò từng bộ phận.</p>
+        </div>
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#f3e8ff;color:#7c3aed;">👥</div>
+          <h5>4. Use Case Diagram</h5>
+          <p>Kèm đặc tả đầy đủ 3 luồng: Luồng chính, Luồng thay thế và Luồng ngoại lệ.</p>
+        </div>
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#ffedd5;color:#ea580c;">&lt;/&gt;</div>
+          <h5>5. API Specification</h5>
+          <p>Đọc hiểu REST, JSON, HTTP Status Code và biết thử gọi API trực tiếp bằng <strong>Postman</strong>.</p>
+        </div>
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#e0f2fe;color:#0284c7;">🗄️</div>
+          <h5>6. SQL &amp; ERD cơ bản</h5>
+          <p>Đủ để tự truy vấn kiểm tra dữ liệu thực tế và trao đổi với Dev mà không bị "lạc" giữa các bảng.</p>
+        </div>
+        <div class="ba-skill-card">
+          <div class="ba-skill-icon" style="background:#dcfce7;color:#16a34a;">🖼️</div>
+          <h5>7. Wireframe &amp; User Flow</h5>
+          <p>Activity Diagram, Screen Flow (luồng chuyển màn hình) và kiến thức UX/UI cơ bản cho BA.</p>
+        </div>
+        <div class="ba-skill-card ba-ai">
+          <div class="ba-skill-icon" style="background:#ede9fe;color:#7c3aed;">✨</div>
+          <h5>8. Bộ AI Skills cho BA/PO</h5>
+          <p>Ứng dụng AI từ Product Discovery, PRD, SRS, User Story, Use Case đến Test Coverage thành một quy trình chuẩn.</p>
+        </div>
+      </div>
+
+      <h3>B.1.5. Tiêu Chuẩn INVEST, BPMN 2.0 &amp; Đặc Tả Use Case 3 Luồng</h3>
+      <ul>
+        <li><strong>Tiêu chuẩn INVEST khi viết User Story:</strong>
+          <strong>I</strong>ndependent (Độc lập) • <strong>N</strong>egotiable (Có thể thương lượng) • <strong>V</strong>aluable (Mang lại giá trị) • <strong>E</strong>stimable (Ước lượng được Effort) • <strong>S</strong>mall (Đủ nhỏ trong 1 Sprint) • <strong>T</strong>estable (Kiểm thử được bằng AC).</li>
+        <li><strong>Chuẩn BPMN 2.0 (Business Process Model and Notation):</strong> Sử dụng thống nhất 4 ký hiệu: <em>Hình tròn</em> (Event: Bắt đầu/Kết thúc), <em>Chữ nhật bo góc</em> (Task/Hoạt động), <em>Hình thoi</em> (Gateway: Rẽ nhánh Đúng/Sai hoặc Song song), <em>Pool &amp; Lane</em> (Phân làn ai làm bước nào).</li>
+        <li><strong>Đặc tả Use Case đầy đủ luôn có 3 luồng:</strong>
+          (1) <em>Luồng chính (Basic Flow):</em> Đi thẳng tới kết quả thành công;
+          (2) <em>Luồng thay thế (Alternative Flow):</em> Cách đi khác nhưng vẫn thành công (vd: Thanh toán bằng QR thay vì Thẻ);
+          (3) <em>Luồng ngoại lệ (Exception Flow):</em> Các trường hợp lỗi/gián đoạn (vd: Mất mạng, hết tồn kho, sai mật khẩu).</li>
+      </ul>
+
+      <h4>B.1.5.1. Quy Chuẩn Ký Hiệu &amp; Nguyên Tắc Vẽ Flowchart (Cho Người Chưa Biết Gì)</h4>
+      <p>
+        <strong>Flowchart (Lưu đồ)</strong> là sơ đồ minh họa từng bước đi của một quy trình theo chuẩn quốc tế (ANSI / ISO 5807).
+        Thay vì đọc chữ dài dòng, hãy <strong>👆 bấm (Click) trực tiếp vào từng hình khối bên dưới</strong> để xem ý nghĩa và yêu cầu bắt buộc khi vẽ:
+      </p>
+
+      <div class="fc-explorer">
+        <div class="fc-symbol-grid">
+          <button type="button" class="fc-symbol-btn" data-symbol="oval" onclick="selectFlowSymbol('oval', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><rect x="5" y="5" width="60" height="26" rx="13" fill="#dbeafe" stroke="#2563eb" stroke-width="2.2"/></svg>
+            <span>Hình Bầu Dục<br>(Start / End)</span>
+          </button>
+
+          <button type="button" class="fc-symbol-btn" data-symbol="rect" onclick="selectFlowSymbol('rect', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><rect x="6" y="6" width="58" height="24" rx="3" fill="#ecfdf5" stroke="#10b981" stroke-width="2.2"/></svg>
+            <span>Hình Chữ Nhật<br>(Process / Bước)</span>
+          </button>
+
+          <button type="button" class="fc-symbol-btn active" data-symbol="diamond" onclick="selectFlowSymbol('diamond', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><polygon points="35,3 65,18 35,33 5,18" fill="#fef3c7" stroke="#d97706" stroke-width="2.2"/></svg>
+            <span>Hình Thoi<br>(Decision / Rẽ nhánh)</span>
+          </button>
+
+          <button type="button" class="fc-symbol-btn" data-symbol="para" onclick="selectFlowSymbol('para', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><polygon points="14,6 64,6 56,30 6,30" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.2"/></svg>
+            <span>Hình Bình Hành<br>(Input / Output)</span>
+          </button>
+
+          <button type="button" class="fc-symbol-btn" data-symbol="arrow" onclick="selectFlowSymbol('arrow', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><line x1="8" y1="18" x2="54" y2="18" stroke="#334155" stroke-width="2.5"/><polygon points="52,12 63,18 52,24" fill="#334155"/></svg>
+            <span>Mũi Tên<br>(Flowline)</span>
+          </button>
+
+          <button type="button" class="fc-symbol-btn" data-symbol="doc" onclick="selectFlowSymbol('doc', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><path d="M10,6 H60 V26 Q47,33 35,27 T10,28 Z" fill="#fce7f3" stroke="#db2777" stroke-width="2.2"/></svg>
+            <span>Tài Liệu<br>(Document)</span>
+          </button>
+
+          <button type="button" class="fc-symbol-btn" data-symbol="delay" onclick="selectFlowSymbol('delay', this)">
+            <svg width="70" height="36" viewBox="0 0 70 36"><path d="M12,6 H42 A12,12 0 0 1 42,30 H12 Z" fill="#f1f5f9" stroke="#475569" stroke-width="2.2"/></svg>
+            <span>Trì Hoãn<br>(Delay / Chờ)</span>
+          </button>
+        </div>
+
+        <div id="fc-detail-panel" class="fc-detail-box">
+          <div class="fc-detail-head">
+            <span class="fc-detail-title" id="fc-title">◆ Hình Thoi (Decision — Điểm Quyết Định / Rẽ Nhánh)</span>
+            <span class="badge badge-amber" id="fc-tag">Bắt buộc ít nhất 2 nhánh ra</span>
+          </div>
+          <ul class="fc-detail-list" id="fc-body">
+            <li><strong>Hình này là gì?</strong> Đại diện cho một câu hỏi điều kiện hoặc bước kiểm tra có từ 2 kết quả trở lên (Đúng/Sai, Có/Không, Đạt/Lỗi).</li>
+            <li><strong>Yêu cầu bắt buộc khi vẽ:</strong> Nội dung bên trong phải viết dạng câu hỏi ngắn (vd: <em>"Đủ tồn kho?"</em>). <strong>Phải có ít nhất 2 mũi tên đi ra</strong> và ghi rõ nhãn (<code>Yes/No</code> hoặc <code>Đúng/Sai</code>) trên từng mũi tên. Tuyệt đối không dùng hình thoi cho bước hành động bình thường.</li>
+            <li><strong>Ví dụ thực tế:</strong> <code>"Khớp Database?"</code> → Nhánh <em>Đúng</em> (vào Trang chủ) | Nhánh <em>Sai</em> (báo lỗi).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- HÌNH 2.1.5: 6 QUY TẮC VÀNG KHI VẼ FLOWCHART -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 190" xmlns="http://www.w3.org/2000/svg">
+          <text x="430" y="24" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e3a8a">6 Quy Tắc Vàng Khi Vẽ Flowchart Chuẩn Cho Người Mới</text>
+
+          <rect x="15" y="42" width="265" height="62" rx="8" fill="#eff6ff" stroke="#3b82f6"/>
+          <text x="28" y="65" font-weight="bold" font-size="12" fill="#1e3a8a">1. Hướng dòng chảy nhất quán</text>
+          <text x="28" y="85" font-size="11" fill="#475569">Luôn đi Trên → Dưới hoặc Trái → Phải.</text>
+
+          <rect x="297" y="42" width="265" height="62" rx="8" fill="#ecfdf5" stroke="#10b981"/>
+          <text x="310" y="65" font-weight="bold" font-size="12" fill="#065f46">2. Luôn có Start &amp; End rõ ràng</text>
+          <text x="310" y="85" font-size="11" fill="#475569">Mọi luồng phải đóng lại bằng Hình Bầu Dục.</text>
+
+          <rect x="579" y="42" width="265" height="62" rx="8" fill="#fffbeb" stroke="#f59e0b"/>
+          <text x="592" y="65" font-weight="bold" font-size="12" fill="#92400e">3. Bắt đầu bằng Động từ ngắn</text>
+          <text x="592" y="85" font-size="11" fill="#475569">Vd: "Nhập Email", "Kiểm tra đơn", "Gửi OTP".</text>
+
+          <rect x="15" y="116" width="265" height="62" rx="8" fill="#fef2f2" stroke="#ef4444"/>
+          <text x="28" y="139" font-weight="bold" font-size="12" fill="#991b1b">4. Hạn chế cắt chéo mũi tên</text>
+          <text x="28" y="159" font-size="11" fill="#475569">Sắp xếp lại ô để không bị rối dây đan chéo.</text>
+
+          <rect x="297" y="116" width="265" height="62" rx="8" fill="#f5f3ff" stroke="#8b5cf6"/>
+          <text x="310" y="139" font-weight="bold" font-size="12" fill="#5b21b6">5. Đúng hình cho đúng mục đích</text>
+          <text x="310" y="159" font-size="11" fill="#475569">Không dùng Hình Thoi cho bước xử lý thường.</text>
+
+          <rect x="579" y="116" width="265" height="62" rx="8" fill="#f1f5f9" stroke="#475569"/>
+          <text x="592" y="139" font-weight="bold" font-size="12" fill="#0f172a">6. Gói gọn trên 1 trang nhìn</text>
+          <text x="592" y="159" font-size="11" fill="#475569">Quá dài hãy tách thành sơ đồ con (Sub-flow).</text>
+        </svg>
+        <div class="figure-caption">Hình 2.1.6: 6 nguyên tắc cốt lõi giúp Flowchart sạch đẹp và không gây hiểu nhầm cho Dev/QA</div>
+      </div>
+
+      <h3>B.1.6. Kiến Thức Kỹ Thuật Cho BA: REST API, Status Code &amp; SQL Cơ Bản</h3>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🌐 Đọc Hiểu HTTP Status Code &amp; Test Postman</div>
+          <ul>
+            <li><code>200 OK / 201 Created</code>: Gọi API thành công / Tạo mới dữ liệu thành công.</li>
+            <li><code>400 Bad Request</code>: Dữ liệu gửi lên sai định dạng hoặc thiếu trường bắt buộc (lỗi Validation).</li>
+            <li><code>401 Unauthorized / 403 Forbidden</code>: Chưa đăng nhập (hết Token) / Không có quyền truy cập chức năng.</li>
+            <li><code>404 Not Found</code>: Không tìm thấy đường dẫn API hoặc mã ID dữ liệu.</li>
+            <li><code>500 Internal Server Error</code>: Lỗi sập code ở phía Backend (cần gửi Log cho Dev xử lý).</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🗄️ Câu Lệnh SQL Cơ Bản BA Hay Dùng</div>
+          <p>Biết câu lệnh <code>SELECT</code> giúp BA tự kiểm tra dữ liệu thật thay vì phải chờ Dev:</p>
+          <div class="code-wrap" style="margin-bottom:0;">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            <pre><code>-- Tra cứu các Lệnh SX chưa hoàn thành
+SELECT w.Code, w.ProductName, w.PlanQty, l.OkQty
+FROM WorkOrders w
+LEFT JOIN ProductionLogs l ON w.Id = l.WorkOrderId
+WHERE w.Status = 'InProgress'
+ORDER BY w.CreatedAt DESC;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <h3>B.1.7. Bộ AI Skills Cho BA / PO (Tăng Tốc Quy Trình Viết Tài Liệu)</h3>
+      <p>
+        BA hiện đại không viết mọi thứ từ trang giấy trắng — hãy dùng AI làm trợ lý qua 5 chặng liên hoàn (lưu ý: <strong>không đưa dữ liệu mật/khách hàng lên AI công cộng</strong> và luôn kiểm duyệt lại logic nghiệp vụ):
+      </p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>1. Product Discovery &amp; PRD: "Hãy đóng vai PO, phân tích bài toán [X] của người dùng [Y], đề xuất mục tiêu KPI và phạm vi MVP."
+2. SRS &amp; Business Rules:    "Từ PRD trên, hãy liệt kê các màn hình cần có, bảng Data Dictionary và các quy tắc Validate dữ liệu."
+3. User Story (INVEST):     "Chuyển tính năng [Z] thành các User Story đạt chuẩn INVEST kèm Acceptance Criteria dạng Given-When-Then."
+4. Use Case 3 Luồng:        "Viết đặc tả Use Case cho chức năng [Z] gồm đủ Basic Flow, Alternative Flow và Exception Flow."
+5. Test Coverage Review:    "Dựa vào AC vừa viết, hãy đối chiếu xem còn sót Edge Case hoặc kịch bản kiểm thử nào chưa phủ không?"</code></pre>
+      </div>
+    </section>
+
+    <!-- ==================== MODULE 5 ==================== -->
+    <section id="phan-5" class="module-section">
+      <div class="module-header">
+        <span class="module-num">C.1</span>
+        <h2>C.1. Case Study: Dự Án MES (Quy Trình May SAP B1 ↔ POP)</h2>
+      </div>
+
+      <p>
+        Phần này áp dụng toàn bộ bộ tài liệu ở Module 7 vào <strong>1 quy trình thực tế trích từ tài liệu To-Be Process (Sewing Work Order &amp; Process)</strong>:
+        tích hợp giữa hệ thống hoạch định <strong>SAP B1 (ERP)</strong> và hệ thống điều hành sản xuất tại xưởng <strong>POP (MES)</strong> cho ngành may mặc.
+      </p>
+
+      <!-- BƯỚC 1: TO-BE PROCESS SWIMLANE & BẢNG MÔ TẢ -->
+      <h3>C.1.1. Giai Đoạn 1: To-Be Process (Swimlane SAP B1 ↔ POP ↔ Off-Line) &amp; BRD</h3>
+      <p>
+        Trong tài liệu chuẩn của doanh nghiệp, một <strong>To-Be Process</strong> luôn gồm 2 phần: <strong>Sơ đồ Swimlane</strong> (phân rõ bước nào chạy trên SAP B1, bước nào chạy trên POP, bước nào làm Off-Line) và <strong>Bảng đặc tả quy trình</strong>.
+      </p>
+
+      <!-- HÌNH MINH HỌA 8.1: SWIMLANE TO-BE PROCESS SEWING WORK ORDER -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- Swimlane headers -->
+          <rect x="10" y="10" width="840" height="82" rx="8" fill="#eff6ff" stroke="#93c5fd"/>
+          <text x="24" y="55" font-weight="bold" font-size="13" fill="#1e3a8a">SAP B1</text>
+          <text x="24" y="72" font-size="10.5" fill="#3b82f6">(ERP Core)</text>
+
+          <rect x="10" y="98" width="840" height="92" rx="8" fill="#ecfdf5" stroke="#6ee7b7"/>
+          <text x="24" y="145" font-weight="bold" font-size="13" fill="#065f46">POP</text>
+          <text x="24" y="162" font-size="10.5" fill="#10b981">(MES Xưởng)</text>
+
+          <rect x="10" y="196" width="840" height="72" rx="8" fill="#fffbeb" stroke="#fcd34d"/>
+          <text x="24" y="236" font-weight="bold" font-size="13" fill="#92400e">Off-Line</text>
+          <text x="24" y="252" font-size="10.5" fill="#d97706">(Tại Chuyền)</text>
+
+          <!-- SAP B1 Boxes -->
+          <rect x="115" y="24" width="135" height="54" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="182" y="46" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#1e3a8a">1. Production Order</text>
+          <text x="182" y="64" text-anchor="middle" font-size="10.5" fill="#475569">Release (P-Lot, Style)</text>
+
+          <rect x="275" y="24" width="145" height="54" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+          <text x="347" y="46" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#1e3a8a">2. Issue for Prod.</text>
+          <text x="347" y="64" text-anchor="middle" font-size="10.5" fill="#475569">Xuất vải/bán TP (BOM)</text>
+
+          <rect x="655" y="24" width="175" height="54" rx="8" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="742" y="46" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#1e3a8a">6. Receipt from Prod.</text>
+          <text x="742" y="64" text-anchor="middle" font-size="10.5" fill="#1d4ed8">Nhập kho TP &amp; Đóng WO</text>
+
+          <!-- POP Boxes -->
+          <rect x="115" y="114" width="145" height="60" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+          <text x="187" y="136" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#065f46">3. Sewing W/O</text>
+          <text x="187" y="152" text-anchor="middle" font-size="10.5" fill="#475569">Master (Lot, Line) &amp;</text>
+          <text x="187" y="166" text-anchor="middle" font-size="10.5" fill="#475569">Detail (Color, Size, Qty)</text>
+
+          <rect x="455" y="114" width="170" height="60" rx="8" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+          <text x="540" y="136" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#065f46">5. Sewing Process Result</text>
+          <text x="540" y="152" text-anchor="middle" font-size="10.5" fill="#047857">Ghi nhận SL theo giờ (Hourly)</text>
+          <text x="540" y="166" text-anchor="middle" font-size="10.5" fill="#047857">theo Style + Color + Size</text>
+
+          <!-- Off-Line Box -->
+          <rect x="285" y="206" width="175" height="52" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="2"/>
+          <text x="372" y="228" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#92400e">4. Chạy Chuyền &amp; PQC</text>
+          <text x="372" y="246" text-anchor="middle" font-size="10.5" fill="#475569">Công nhân may &amp; kiểm tra lỗi</text>
+
+          <!-- Arrows -->
+          <line x1="250" y1="51" x2="270" y2="51" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="182" y1="78" x2="182" y2="110" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="260" y1="144" x2="350" y2="202" stroke="#d97706" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="460" y1="232" x2="540" y2="178" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-green)"/>
+          <line x1="625" y1="144" x2="742" y2="82" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+        </svg>
+        <div class="figure-caption">Hình 5.1: Sơ đồ Swimlane To-Be Process — Quy trình Sewing Work Order &amp; Process (SAP B1 ↔ POP ↔ Off-Line)</div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:50px;">No</th>
+              <th style="width:190px;">Category</th>
+              <th>Description (Mô tả quy trình chuẩn)</th>
+              <th style="width:210px;">Remark (Ghi chú)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Sewing Plan &amp; W/O</strong></td>
+              <td>Từ <code>Production Schedule</code> trên SAP B1, hệ thống đẩy sang POP tạo <strong>Sewing Work Order</strong> gồm Master (Lot No, Style, Sewing Line) và Detail (Color, Size, W/O Qty).</td>
+              <td>Đồng bộ tự động từ SAP B1 → POP</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Sewing Process Result</strong></td>
+              <td>Tại chuyền may, tổ trưởng nhập kết quả sản lượng <strong>theo từng giờ (Hourly / Pcs by Time)</strong> chi tiết theo từng mã Item Code (Style + Color + Size) và trạng thái kiểm tra PQC.</td>
+              <td>Ghi nhận trên Tablet/PC tại chuyền</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Receipt from Production</strong></td>
+              <td>Kết quả thành phẩm (Finish Product) từ POP được đồng bộ ngược về SAP B1 tạo phiếu <code>Receipt from Production</code> để nhập kho và tính giá thành theo BOM.</td>
+              <td>Interface tự động theo giờ hoặc cuối ca</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BƯỚC 2: SRS / USER STORY + WIREFRAME -->
+      <h3>C.1.2. Giai Đoạn 2: Đặc Tả SRS / User Story &amp; Wireframe (Do BA &amp; UI/UX thực hiện)</h3>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>[User Story - POP-SEW-01: Ghi nhận sản lượng may theo giờ]
+Là một Tổ trưởng chuyền may (Line Leader),
+Tôi muốn nhập số lượng áo Đạt (OK) và Lỗi (NG) theo từng khung giờ cho từng Color / Size của Lệnh may (Sewing W/O),
+Để hệ thống POP theo dõi tiến độ đạt mục tiêu theo giờ và tự động đồng bộ nhập kho về SAP B1.
+
+[Acceptance Criteria (AC)]
+1. Happy Case (Ghi nhận sản lượng theo giờ hợp lệ):
+   GIVEN Chuyền "LINE-01" đang chạy Lệnh "SWO-2611-001" (Style: LA-WH0874, Color: AR3, Size: M, Kế hoạch: 500)
+   WHEN  Tổ trưởng chọn khung giờ "09:00 - 10:00", nhập OK = 45, NG = 2, chọn lý do lỗi "Đứt chỉ (SEW-01)" và bấm "Lưu kết quả"
+   THEN  POP lưu lịch sử giờ 09:00-10:00, cập nhật tổng đã may = 47/500 (Tỷ lệ đạt: 9.4%)
+   AND   Đưa bản ghi vào hàng đợi đồng bộ "Receipt from Production" sang SAP B1.
+
+2. Validation Case (Vượt số lượng kế hoạch W/O):
+   GIVEN Lệnh "SWO-2611-001" (Size M) chỉ còn thiếu 30 cái là đủ 500 cái
+   WHEN  Tổ trưởng nhập OK = 35
+   THEN  Hệ thống cảnh báo: "Sản lượng nhập vượt quá Kế hoạch W/O (Còn lại: 30)" và chặn lưu (trừ khi có quyền Supervisor).
+
+3. Validation Case (Có hàng lỗi NG nhưng thiếu lý do):
+   GIVEN Tổ trưởng nhập NG &gt; 0 nhưng chưa chọn mã lỗi PQC
+   THEN  Hệ thống hiển thị viền đỏ tại ô "Lý do lỗi" và không cho phép bấm "Lưu kết quả".</code></pre>
+      </div>
+
+      <!-- HÌNH MINH HỌA 8.2: WIREFRAME + ERD -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 250" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left: Wireframe POP Sewing -->
+          <rect x="15" y="10" width="380" height="230" rx="12" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+          <rect x="15" y="10" width="380" height="30" rx="12" fill="#1e293b"/>
+          <text x="205" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">POP Screen: Sewing Process Result (Line 01)</text>
+          <text x="32" y="58" font-size="11.5" font-weight="bold" fill="#1e3a8a">W/O: SWO-2611-001 | Lot: LAT1G0001AA01</text>
+          <text x="32" y="76" font-size="11" fill="#475569">Item: LA-S23-WH0874-AR3-M  |  KH: 500  |  Đã đạt: 180</text>
+          <rect x="32" y="84" width="345" height="8" rx="4" fill="#e2e8f0"/>
+          <rect x="32" y="84" width="124" height="8" rx="4" fill="#10b981"/>
+
+          <text x="32" y="112" font-size="11" fill="#475569">Khung giờ (Hourly):</text>
+          <rect x="145" y="98" width="232" height="24" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+          <text x="155" y="114" font-size="11" fill="#0f172a">09:00 - 10:00 (Ca 1) ▾</text>
+
+          <text x="32" y="142" font-size="11" font-weight="600" fill="#065f46">SL Đạt (OK):</text>
+          <rect x="32" y="148" width="160" height="28" rx="5" fill="#ecfdf5" stroke="#10b981"/>
+          <text x="112" y="167" text-anchor="middle" font-size="13" font-weight="bold" fill="#065f46">45</text>
+
+          <text x="210" y="142" font-size="11" font-weight="600" fill="#991b1b">SL Lỗi PQC (NG):</text>
+          <rect x="210" y="148" width="167" height="28" rx="5" fill="#fef2f2" stroke="#ef4444"/>
+          <text x="293" y="167" text-anchor="middle" font-size="13" font-weight="bold" fill="#991b1b">2</text>
+
+          <text x="32" y="196" font-size="11" fill="#475569">Mã lỗi PQC:</text>
+          <rect x="105" y="184" width="155" height="26" rx="4" fill="#f8fafc" stroke="#cbd5e1"/>
+          <text x="113" y="201" font-size="10.5" fill="#334155">SEW-01: Đứt chỉ ▾</text>
+
+          <rect x="270" y="184" width="107" height="28" rx="6" fill="#2563eb"/>
+          <text x="323" y="202" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#ffffff">Lưu &amp; Sync SAP</text>
+
+          <!-- Right: ERD Database -->
+          <rect x="415" y="10" width="430" height="230" rx="12" fill="#f8fafc" stroke="#10b981" stroke-width="2"/>
+          <text x="630" y="32" text-anchor="middle" font-size="13" font-weight="bold" fill="#065f46">Sơ Đồ CSDL (ERD) — POP Sewing &amp; SAP Sync</text>
+
+          <rect x="430" y="46" width="185" height="92" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5"/>
+          <rect x="430" y="46" width="185" height="22" rx="6" fill="#dbeafe"/>
+          <text x="522" y="61" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">SewingWorkOrderDetails</text>
+          <text x="438" y="81" font-size="10.5" fill="#334155">🔑 Id (PK) | WoMasterId (FK)</text>
+          <text x="438" y="96" font-size="10.5" fill="#334155">• ItemCode (Style-Color-Size)</text>
+          <text x="438" y="111" font-size="10.5" fill="#334155">• PlanQty, ProducedOkQty</text>
+          <text x="438" y="126" font-size="10.5" fill="#334155">• SapDocEntry (Link SAP B1)</text>
+
+          <line x1="615" y1="90" x2="645" y2="90" stroke="#0f172a" stroke-width="2"/>
+          <text x="630" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f172a">1:N</text>
+
+          <rect x="645" y="46" width="188" height="92" rx="6" fill="#ffffff" stroke="#10b981" stroke-width="1.5"/>
+          <rect x="645" y="46" width="188" height="22" rx="6" fill="#d1fae5"/>
+          <text x="739" y="61" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">SewingHourlyResults</text>
+          <text x="653" y="81" font-size="10.5" fill="#334155">🔑 Id (PK) | 🔗 WoDetailId (FK)</text>
+          <text x="653" y="96" font-size="10.5" fill="#334155">• LineCode, TimeSlot</text>
+          <text x="653" y="111" font-size="10.5" fill="#334155">• OkQty, NgQty, DefectCode</text>
+          <text x="653" y="126" font-size="10.5" fill="#334155">• SapSyncStatus (Pending/Synced)</text>
+
+          <rect x="520" y="158" width="225" height="68" rx="6" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
+          <rect x="520" y="158" width="225" height="20" rx="6" fill="#fef3c7"/>
+          <text x="632" y="172" text-anchor="middle" font-size="11" font-weight="bold" fill="#92400e">SapInterfaceLogs (Lịch sử đồng bộ)</text>
+          <text x="530" y="191" font-size="10.5" fill="#334155">🔑 Id | 🔗 ResultId | ApiType (Receipt)</text>
+          <text x="530" y="207" font-size="10.5" fill="#334155">• PayloadJson | ResponseMsg | RetryCount</text>
+          <line x1="739" y1="138" x2="739" y2="158" stroke="#0f172a" stroke-width="1.5"/>
+        </svg>
+        <div class="figure-caption">Hình 5.2: Wireframe màn hình POP Sewing Process Result và Sơ đồ CSDL (ERD) có bảng Log đồng bộ SAP B1</div>
+      </div>
+
+      <!-- BƯỚC 3: THIẾT KẾ KỸ THUẬT -->
+      <h3>C.1.3. Giai Đoạn 3: HLD &amp; API Spec (Do Tech Lead &amp; .NET Backend Dev thực hiện)</h3>
+      <ul>
+        <li><strong>Kiến trúc tổng thể (HLD):</strong> Hệ thống <strong>POP</strong> chạy trên nền tảng <strong>ASP.NET Core Web API (.NET)</strong> + <strong>SQL Server</strong> để phản hồi tức thì tại xưởng (không bị lag nếu mạng tới SAP chậm). Một <strong>Background Worker (.NET)</strong> sẽ đọc bảng <code>SapInterfaceLogs</code> để đẩy phiếu <code>Receipt from Production</code> sang <strong>SAP B1 Service Layer</strong> (tự động thử lại nếu mất mạng).</li>
+      </ul>
+
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code>// API SPEC (Swagger / OpenAPI): Ghi nhận sản lượng may theo giờ tại POP
+POST /api/v1/pop/sewing-wo/{woDetailId}/hourly-result
+Authorization: Bearer &lt;JWT_TOKEN&gt;
+
+// Request Body (JSON từ màn hình POP gửi lên .NET API)
+{
+  "lineCode": "LINE-01",
+  "timeSlot": "09:00-10:00",
+  "okQty": 45,
+  "ngQty": 2,
+  "defectCode": "SEW-01",
+  "sewerId": "EMP-0421"
+}
+
+// Response 200 OK (.NET API trả về)
+{
+  "success": true,
+  "message": "Đã lưu sản lượng giờ 09:00-10:00 và xếp hàng đồng bộ SAP B1",
+  "data": {
+    "woCode": "SWO-2611-001",
+    "itemCode": "LA-S23-WH0874-AR3-M",
+    "totalOkQty": 225,
+    "planQty": 500,
+    "sapSyncStatus": "Pending"
+  }
+}</code></pre>
+      </div>
+
+      <!-- BƯỚC 4: QA TEST CASE & UAT -->
+      <h3>C.1.4. Giai Đoạn 4: QA Test Case &amp; Nghiệm Thu UAT (Do QA &amp; BA thực hiện)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã TC</th>
+              <th>Kịch bản kiểm thử</th>
+              <th>Dữ liệu đầu vào</th>
+              <th>Kết quả mong đợi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TC-POP-01</strong></td>
+              <td>Nhập sản lượng OK &amp; NG theo giờ hợp lệ</td>
+              <td>Line 01, 09:00-10:00, OK=45, NG=2, Mã lỗi=SEW-01</td>
+              <td>POP lưu DB, tổng sản lượng tăng đúng, Worker đẩy thành công phiếu Receipt về SAP B1.</td>
+            </tr>
+            <tr>
+              <td><strong>TC-POP-02</strong></td>
+              <td>Nhập NG &gt; 0 nhưng quên chọn mã lỗi PQC</td>
+              <td>OK=40, NG=3, Mã lỗi=Trống</td>
+              <td>API trả HTTP 400, UI báo lỗi đỏ tại ô Mã lỗi và không lưu.</td>
+            </tr>
+            <tr>
+              <td><strong>TC-POP-03</strong></td>
+              <td>Nhập vượt số lượng Kế hoạch W/O</td>
+              <td>Còn thiếu 30, nhập OK=35</td>
+              <td>Hệ thống cảnh báo vượt định mức kế hoạch, chặn lưu với user Tổ trưởng.</td>
+            </tr>
+            <tr>
+              <td><strong>TC-POP-04</strong></td>
+              <td>Mất kết nối tạm thời tới SAP B1 khi lưu</td>
+              <td>Ngắt kết nối SAP Service Layer, bấm Lưu</td>
+              <td>POP vẫn lưu thành công ở xưởng (<code>Pending</code>); khi có mạng lại, Worker tự đồng bộ bù (<code>Synced</code>) không mất dữ liệu.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">✅ Kết thúc dự án (UAT Sign-off &amp; Handover):</div>
+        Sau khi QA pass toàn bộ Test Case trên Staging, <strong>BA</strong> tổ chức cho Quản đốc xưởng may và Kế toán/Kho SAP kiểm tra đối chiếu số lượng giữa POP và SAP B1 (<strong>UAT</strong>). Khi hai bên ký biên bản <strong>UAT Sign-off</strong>, <strong>DevOps</strong> triển khai lên Production và BA bàn giao <strong>User Manual</strong> để đóng dự án.
+      </div>
+    </section>
+
+    <!-- ==================== GLOSSARY: CHÚ THÍCH TỪ VIẾT TẮT ==================== -->
+    <!-- ==================== PHẦN 6: CÔNG CỤ & NỀN TẢNG CHUNG ==================== -->
+    <section id="phan-6" class="module-section">
+      <div class="module-header">
+        <span class="module-num">C.2</span>
+        <h2>C.2. Git / SVN &amp; Bản Đồ Công Nghệ</h2>
+      </div>
+      <p>Phần kiến thức nền tảng chung mà mọi thành viên (BA, PM, Dev, QA) đều cần biết để phối hợp hàng ngày:</p>
+      <h3>C.2.1. Quản Lý Mã Nguồn &amp; Tài Liệu (Git &amp; SVN Cơ Bản)</h3>
+
+      <h3>C.2.2. Version Control System (VCS) là gì?</h3>
+      <p>
+        Hãy nhớ lại cảnh đặt tên file: <code>TaiLieu_v1.docx</code>, <code>TaiLieu_Final.docx</code>, <code>TaiLieu_Final_Chot_SuaLan2.docx</code>.
+        Khi có 5 người cùng sửa một dự án, việc copy qua lại sẽ làm mất dữ liệu. <strong>VCS</strong> ra đời để:
+      </p>
+      <ul>
+        <li>Lưu lại <strong>toàn bộ lịch sử</strong> thay đổi (ai sửa, sửa dòng nào, vào giờ nào, lý do gì).</li>
+        <li>Cho phép <strong>quay ngược thời gian</strong> về phiên bản cũ nếu lỡ làm hỏng.</li>
+        <li>Hỗ trợ nhiều người làm việc <strong>song song</strong> trên các nhánh khác nhau rồi gộp lại an toàn.</li>
+      </ul>
+
+      <h3>C.2.3. So sánh Git và SVN (Subversion)</h3>
+
+      <!-- HÌNH MINH HỌA 2: GIT VS SVN -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 290" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left: SVN -->
+          <rect x="20" y="15" width="390" height="255" rx="14" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="215" y="45" text-anchor="middle" font-weight="bold" font-size="16" fill="#92400e">SVN (Tập trung - Centralized)</text>
+          <rect x="145" y="65" width="140" height="50" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+          <text x="215" y="88" text-anchor="middle" font-weight="bold" font-size="13" fill="#78350f">Central Server</text>
+          <text x="215" y="105" text-anchor="middle" font-size="11" fill="#92400e">(Chứa toàn bộ lịch sử)</text>
+          <line x1="175" y1="115" x2="105" y2="175" stroke="#d97706" stroke-width="2"/>
+          <line x1="255" y1="115" x2="325" y2="175" stroke="#d97706" stroke-width="2"/>
+          <rect x="45" y="175" width="120" height="48" rx="8" fill="#ffffff" stroke="#f59e0b"/>
+          <text x="105" y="198" text-anchor="middle" font-weight="bold" font-size="12" fill="#78350f">Máy User A</text>
+          <text x="105" y="214" text-anchor="middle" font-size="10" fill="#64748b">Chỉ có bản hiện tại</text>
+          <rect x="265" y="175" width="120" height="48" rx="8" fill="#ffffff" stroke="#f59e0b"/>
+          <text x="325" y="198" text-anchor="middle" font-weight="bold" font-size="12" fill="#78350f">Máy User B</text>
+          <text x="325" y="214" text-anchor="middle" font-size="10" fill="#64748b">Cần mạng để Commit</text>
+          <text x="215" y="252" text-anchor="middle" font-size="12" font-weight="600" fill="#b45309">Phù hợp: Tài liệu Word/Excel cần Lock file, dự án cũ</text>
+
+          <!-- Right: Git -->
+          <rect x="450" y="15" width="390" height="255" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+          <text x="645" y="45" text-anchor="middle" font-weight="bold" font-size="16" fill="#1e3a8a">GIT (Phân tán - Distributed)</text>
+          <rect x="575" y="65" width="140" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="645" y="88" text-anchor="middle" font-weight="bold" font-size="13" fill="#1e3a8a">Remote Repo</text>
+          <text x="645" y="105" text-anchor="middle" font-size="11" fill="#1d4ed8">(GitHub / GitLab / Azure)</text>
+          <line x1="605" y1="115" x2="535" y2="175" stroke="#2563eb" stroke-width="2"/>
+          <line x1="685" y1="115" x2="755" y2="175" stroke="#2563eb" stroke-width="2"/>
+          <rect x="475" y="175" width="120" height="48" rx="8" fill="#ffffff" stroke="#3b82f6"/>
+          <text x="535" y="198" text-anchor="middle" font-weight="bold" font-size="12" fill="#1e3a8a">Local Repo A</text>
+          <text x="535" y="214" text-anchor="middle" font-size="10" fill="#059669">Đủ 100% lịch sử (Offline OK)</text>
+          <rect x="695" y="175" width="120" height="48" rx="8" fill="#ffffff" stroke="#3b82f6"/>
+          <text x="755" y="198" text-anchor="middle" font-weight="bold" font-size="12" fill="#1e3a8a">Local Repo B</text>
+          <text x="755" y="214" text-anchor="middle" font-size="10" fill="#059669">Tạo Branch siêu nhanh</text>
+          <text x="645" y="252" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">Chuẩn công nghiệp cho Code, Markdown &amp; CI/CD</text>
+        </svg>
+        <div class="figure-caption">Hình 6.1: Sự khác biệt cốt lõi giữa mô hình tập trung (SVN) và phân tán (Git)</div>
+      </div>
+
+      <h3>C.2.4. Hướng dẫn sử dụng Git đơn giản (6 bước hàng ngày)</h3>
+      <p>Dù bạn là Dev viết code hay BA viết tài liệu Markdown trên DocStack, chỉ cần nắm vững 6 lệnh sau:</p>
+
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre><code># 1. Tải kho dự án về máy lần đầu tiên
+git clone https://github.com/my-team/docstack.git
+
+# 2. Luôn kéo dữ liệu mới nhất của team về trước khi bắt đầu làm việc
+git pull origin main
+
+# 3. Tạo một nhánh (branch) mới cho công việc của bạn (tránh làm hỏng nhánh chính)
+git checkout -b feature/tai-lieu-nghi-phep
+
+# 4. Sau khi sửa file xong, đưa toàn bộ file đã sửa vào vùng chờ (Staging)
+git add .
+
+# 5. Đóng gói lưu mốc thay đổi kèm lời nhắn rõ ràng
+git commit -m "docs: them tai lieu huong dan quy trinh nghi phep"
+
+# 6. Đẩy nhánh của bạn lên server (GitHub/GitLab) để tạo Pull Request (PR)
+git push -u origin feature/tai-lieu-nghi-phep</code></pre>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">💡 Mẹo cho người không chuyên code (BA / Tester):</div>
+        Không bắt buộc phải gõ dòng lệnh! Bạn có thể cài <strong>GitHub Desktop</strong> hoặc dùng tab <strong>Source Control</strong> có sẵn trong Visual Studio Code để bấm nút Commit &amp; Push trực quan.
+      </div>
+
+      <h3>C.2.5. Hướng dẫn sử dụng SVN cơ bản (Với TortoiseSVN)</h3>
+      <p>Nếu công ty bạn lưu tài liệu Word/Excel trên SVN, quy trình thao tác bằng chuột phải trên Windows rất đơn giản:</p>
+      <ol>
+        <li><strong>SVN Checkout:</strong> Chuột phải vào thư mục trống → chọn Checkout → dán link server để tải về lần đầu.</li>
+        <li><strong>SVN Update:</strong> Đầu mỗi ngày, chuột phải chọn Update để lấy file mới nhất của đồng nghiệp.</li>
+        <li><strong>Get Lock (Rất quan trọng với file Word/Excel):</strong> Khóa file lại trước khi sửa để người khác không sửa đè vào cùng lúc.</li>
+        <li><strong>SVN Commit:</strong> Sửa xong → chuột phải chọn Commit → nhập mô tả thay đổi → bấm OK (nhớ tích chọn nhả Lock).</li>
+      </ol>
+    
+
+      <hr style="border:none;border-top:1px solid var(--border-color);margin:28px 0;" />
+      <h3>C.2.6. Bản Đồ Công Nghệ Hiện Đại (Tech Stack Overview)</h3>
+
+      <p>
+        Hiểu biết tổng quan về các ngôn ngữ lập trình và công nghệ giúp BA, PM và người mới dễ dàng trao đổi với đội kỹ thuật, chọn đúng công cụ cho dự án và đọc hiểu tài liệu thiết kế. Các công nghệ có nhãn <span class="hot-tag">★ HAY DÙNG NHẤT</span> là những lựa chọn phổ biến hàng đầu hiện nay.
+      </p>
+
+      <!-- HÌNH MINH HỌA 5: TECH STACK MAP -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 310" xmlns="http://www.w3.org/2000/svg">
+          <!-- Backend -->
+          <rect x="20" y="15" width="265" height="142" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+          <text x="152" y="42" text-anchor="middle" font-weight="bold" font-size="14" fill="#5b21b6">⚡ Backend (Server Logic)</text>
+          <rect x="34" y="54" width="237" height="24" rx="6" fill="#ede9fe" stroke="#8b5cf6"/>
+          <text x="152" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#4c1d95">★ C# / .NET Core (Thế mạnh Team)</text>
+          <text x="152" y="96" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1e3a8a">★ Java (Spring Boot) • ★ Node.js</text>
+          <text x="152" y="116" text-anchor="middle" font-size="11.5" fill="#475569">Python (Django/FastAPI)</text>
+          <text x="152" y="136" text-anchor="middle" font-size="11.5" fill="#475569">PHP (Laravel) • Go (Golang)</text>
+
+          <!-- Frontend -->
+          <rect x="298" y="15" width="265" height="142" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+          <text x="430" y="42" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e3a8a">🎨 Frontend &amp; Mobile</text>
+          <rect x="312" y="54" width="237" height="24" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+          <text x="430" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e40af">★ ReactJS / Next.js + TypeScript</text>
+          <text x="430" y="96" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1d4ed8">★ HTML5 • CSS3 • JavaScript (JS)</text>
+          <text x="430" y="116" text-anchor="middle" font-size="11.5" fill="#475569">Vue.js • Angular (Enterprise)</text>
+          <text x="430" y="136" text-anchor="middle" font-size="11.5" fill="#475569">Mobile: Flutter • React Native</text>
+
+          <!-- Database -->
+          <rect x="576" y="15" width="264" height="142" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+          <text x="708" y="42" text-anchor="middle" font-weight="bold" font-size="14" fill="#065f46">🗄️ Database &amp; Cache</text>
+          <rect x="590" y="54" width="236" height="24" rx="6" fill="#d1fae5" stroke="#10b981"/>
+          <text x="708" y="70" text-anchor="middle" font-size="12" font-weight="bold" fill="#065f46">★ SQL Server • ★ MySQL • ★ PostgreSQL</text>
+          <text x="708" y="96" text-anchor="middle" font-size="11.5" fill="#475569">NoSQL: MongoDB (Lưu JSON linh hoạt)</text>
+          <text x="708" y="116" text-anchor="middle" font-size="11.5" fill="#475569">Cache: Redis (Lưu RAM siêu tốc)</text>
+          <text x="708" y="136" text-anchor="middle" font-size="11.5" fill="#475569">Oracle DB (Ngân hàng/Viễn thông)</text>
+
+          <!-- DevOps -->
+          <rect x="20" y="175" width="402" height="115" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="221" y="203" text-anchor="middle" font-weight="bold" font-size="14" fill="#92400e">🚀 Hạ tầng, Cloud &amp; DevOps</text>
+          <text x="221" y="227" text-anchor="middle" font-size="12" font-weight="600" fill="#b45309">★ Docker (Đóng gói môi trường chạy đồng nhất)</text>
+          <text x="221" y="249" text-anchor="middle" font-size="11.5" fill="#475569">CI/CD: GitHub Actions • GitLab CI • Azure Pipelines</text>
+          <text x="221" y="270" text-anchor="middle" font-size="11.5" fill="#475569">Cloud: Microsoft Azure • AWS • Google Cloud • Nginx / IIS</text>
+
+          <!-- Tools -->
+          <rect x="438" y="175" width="402" height="115" rx="12" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+          <text x="639" y="203" text-anchor="middle" font-weight="bold" font-size="14" fill="#0f172a">🧰 Công Cụ Làm Việc Hàng Ngày</text>
+          <text x="639" y="227" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Quản lý Task: Jira • Azure DevOps • Trello</text>
+          <text x="639" y="249" text-anchor="middle" font-size="11.5" fill="#475569">Test API: Swagger • Postman | Thiết kế UI: Figma</text>
+          <text x="639" y="270" text-anchor="middle" font-size="11.5" fill="#475569">Tài liệu &amp; Giao tiếp: DocStack • Confluence • Slack / Teams</text>
+        </svg>
+        <div class="figure-caption">Hình 6.2: Bản đồ hệ sinh thái công nghệ phổ biến (đánh dấu ★ các công nghệ được sử dụng nhiều nhất)</div>
+      </div>
+
+      <h3>C.2.7. Nhóm Công Nghệ Backend (Xử lý nghiệp vụ &amp; API phía Server)</h3>
+      <div class="tech-grid">
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">C# / .NET (ASP.NET Core)</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">Nền tảng chủ lực của Microsoft. Hiệu năng cực cao, bảo mật chặt chẽ, cấu trúc rõ ràng (Clean Architecture), chạy đa nền tảng trên cả Windows và Linux Docker.</p>
+          <div class="tech-meta">Phù hợp: Hệ thống doanh nghiệp (ERP, CRM), Web API, FinTech.</div>
+        </div>
+
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">Java (Spring Boot)</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">Ngôn ngữ lâu đời, ổn định và hệ sinh thái khổng lồ. Rất mạnh trong xử lý giao dịch lớn, tính an toàn và khả năng mở rộng hệ thống.</p>
+          <div class="tech-meta">Phù hợp: Ngân hàng, Bảo hiểm, Viễn thông, Hệ thống lõi lớn.</div>
+        </div>
+
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">Node.js (JS / NestJS / Express)</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">Đưa JavaScript lên chạy phía Server. Tốc độ phát triển nhanh, xử lý kết nối đồng thời tốt, dễ dùng chung nhân lực với Frontend.</p>
+          <div class="tech-meta">Phù hợp: Startup, Ứng dụng Chat/Realtime, BFF (Backend for Frontend).</div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-head">
+            <span class="tech-name">Python (Django / FastAPI)</span>
+          </div>
+          <p class="tech-desc">Cú pháp cực kỳ ngắn gọn, dễ đọc. Là ngôn ngữ số 1 thế giới về Trí tuệ nhân tạo (AI), Học máy (ML) và Phân tích dữ liệu.</p>
+          <div class="tech-meta">Phù hợp: Hệ thống AI/Chatbot, Data Pipeline, Web làm nhanh.</div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-head">
+            <span class="tech-name">PHP (Laravel)</span>
+          </div>
+          <p class="tech-desc">Ngôn ngữ web phổ biến hàng đầu cho các website truyền thống. Framework Laravel giúp tạo trang web quản trị và bán hàng rất nhanh, chi phí server rẻ.</p>
+          <div class="tech-meta">Phù hợp: Website thương mại điện tử, CMS (WordPress), SME.</div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-head">
+            <span class="tech-name">Go (Golang)</span>
+          </div>
+          <p class="tech-desc">Do Google phát triển. Siêu nhẹ, tốc độ thực thi gần tương đương C++, xử lý đa luồng xuất sắc với chi phí RAM/CPU rất thấp.</p>
+          <div class="tech-meta">Phù hợp: Microservices chịu tải cao, Hạ tầng Cloud/DevOps.</div>
+        </div>
+      </div>
+
+      <h3>C.2.8. Nhóm Công Nghệ Frontend &amp; Mobile (Giao diện người dùng)</h3>
+      <div class="tech-grid">
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">HTML5 / CSS3 / JavaScript (JS)</span>
+            <span class="hot-tag">★ NỀN TẢNG BẮT BUỘC</span>
+          </div>
+          <p class="tech-desc">Bộ ba không thể thiếu của mọi website: HTML dựng khung xương nội dung, CSS trang trí giao diện, và JavaScript xử lý tương tác bấm nút, gọi API.</p>
+          <div class="tech-meta">Phù hợp: Mọi ứng dụng Web chạy trên trình duyệt.</div>
+        </div>
+
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">ReactJS / Next.js + TypeScript</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">ReactJS là thư viện UI phổ biến nhất thế giới hiện nay (của Meta). Kết hợp TypeScript (JS có kiểm tra kiểu dữ liệu chặt chẽ) và Next.js để tối ưu SEO &amp; tốc độ.</p>
+          <div class="tech-meta">Phù hợp: Mọi Web App hiện đại, Dashboard, Thương mại điện tử.</div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-head">
+            <span class="tech-name">Vue.js / Angular</span>
+          </div>
+          <p class="tech-desc"><strong>Vue.js</strong> nhẹ nhàng, dễ học, cú pháp thân thiện. <strong>Angular</strong> (của Google) là framework đầy đủ "tất cả trong một", thường được chọn đi cặp với Backend .NET.</p>
+          <div class="tech-meta">Phù hợp: Hệ thống nội bộ doanh nghiệp, Web quản trị phức tạp.</div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-head">
+            <span class="tech-name">Flutter / React Native</span>
+          </div>
+          <p class="tech-desc">Công nghệ làm App di động đa nền tảng (Cross-platform): viết code 1 lần nhưng xuất ra được cả ứng dụng chạy trên iOS (iPhone) và Android.</p>
+          <div class="tech-meta">Phù hợp: App bán hàng, App nội bộ công ty, tiết kiệm 50% chi phí.</div>
+        </div>
+      </div>
+
+      <h3>C.2.9. Nhóm Cơ Sở Dữ Liệu (Database &amp; Cache)</h3>
+      <div class="tech-grid">
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">Microsoft SQL Server (MSSQL)</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">Hệ quản trị CSDL quan hệ (SQL) của Microsoft. Tích hợp hoàn hảo với hệ sinh thái .NET / C#, công cụ quản trị SSMS trực quan và bảo mật dữ liệu cao.</p>
+          <div class="tech-meta">Phù hợp: Dự án .NET, Kế toán, Nhân sự, Tài chính doanh nghiệp.</div>
+        </div>
+
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">MySQL / MariaDB</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">CSDL mã nguồn mở phổ biến nhất thế giới, miễn phí, nhẹ và dễ cài đặt. Tốc độ đọc dữ liệu nhanh, cộng đồng hỗ trợ cực kỳ đông đảo.</p>
+          <div class="tech-meta">Phù hợp: Website vừa và nhỏ, PHP, Java, Hệ thống thương mại.</div>
+        </div>
+
+        <div class="tech-card tech-hot">
+          <div class="tech-card-head">
+            <span class="tech-name">PostgreSQL</span>
+            <span class="hot-tag">★ HAY DÙNG NHẤT</span>
+          </div>
+          <p class="tech-desc">CSDL mã nguồn mở mạnh mẽ hàng đầu, hỗ trợ tốt cả dữ liệu bảng truyền thống lẫn JSON, bản đồ địa lý (PostGIS) và các truy vấn phân tích phức tạp.</p>
+          <div class="tech-meta">Phù hợp: Hệ thống lớn cần tối ưu chi phí bản quyền, SaaS, FinTech.</div>
+        </div>
+
+        <div class="tech-card">
+          <div class="tech-card-head">
+            <span class="tech-name">MongoDB (NoSQL) &amp; Redis (Cache)</span>
+          </div>
+          <p class="tech-desc"><strong>MongoDB</strong> lưu dữ liệu dạng tài liệu JSON linh hoạt (không cứng nhắc cột). <strong>Redis</strong> lưu dữ liệu trên RAM cho tốc độ phản hồi tính bằng mili-giây.</p>
+          <div class="tech-meta">Phù hợp: MongoDB cho Log/Catalog; Redis cho Cache &amp; Giỏ hàng.</div>
+        </div>
+      </div>
+
+      <h3>C.2.10. Hạ Tầng, DevOps &amp; Công Cụ Phối Hợp Team</h3>
+      <ul>
+        <li><strong>Docker <span class="hot-tag">★ HAY DÙNG NHẤT</span>:</strong> Giống như <em>chiếc container chở hàng</em>. Dev đóng gói cả code và phần mềm nền vào 1 container, đưa lên máy Tester hay Server chạy đều y hệt nhau — chấm dứt câu nói kinh điển: <em>"Ở máy em vẫn chạy bình thường mà!"</em>.</li>
+        <li><strong>CI/CD (GitHub Actions / GitLab CI):</strong> Hệ thống tự động kiểm tra lỗi, build và đẩy phiên bản mới lên Server mỗi khi Dev đẩy code lên nhánh chính.</li>
+        <li><strong>Swagger / Postman:</strong> Công cụ giúp BA, Frontend và Tester xem danh sách API do Backend viết ra và bấm chạy thử API trực tiếp mà không cần mở code.</li>
+      </ul>
+    
+
+    <!-- ==================== MODULE 6 ==================== -->
+    </section>
+
+    <!-- ==================== C.3: MÔ HÌNH WATERFALL (THÁC NƯỚC) ==================== -->
+    <section id="waterfall-ref" class="module-section">
+      <div class="module-header">
+        <span class="module-num">C.3</span>
+        <h2>C.3. Mô Hình Waterfall (Thác Nước)</h2>
+      </div>
+
+      <p>
+        <strong>Mô hình Waterfall (Thác nước)</strong> là phương pháp phát triển phần mềm theo tiến trình <strong>tuần tự từng bước một chiều</strong>: giai đoạn sau chỉ được bắt đầu khi giai đoạn trước đã hoàn tất và ký chốt xong, hiếm khi quay ngược lại bước cũ.
+      </p>
+
+      <!-- HÌNH MINH HỌA C.3.1: SƠ ĐỒ THÁC NƯỚC 5 GIAI ĐOẠN -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 310" xmlns="http://www.w3.org/2000/svg">
+          <text x="430" y="26" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e3a8a">Mô Hình Thác Nước (Waterfall) — 5 Giai Đoạn Tuần Tự Một Chiều</text>
+
+          <!-- Step 1 -->
+          <rect x="30" y="45" width="235" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+          <text x="147" y="65" text-anchor="middle" font-weight="bold" font-size="12" fill="#5b21b6">1. Phân Tích Yêu Cầu</text>
+          <text x="147" y="81" text-anchor="middle" font-size="10.5" fill="#475569">Thu thập &amp; chốt cứng yêu cầu từ đầu</text>
+          <path d="M265 67 H305 V92" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+          <!-- Step 2 -->
+          <rect x="175" y="96" width="245" height="44" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="297" y="116" text-anchor="middle" font-weight="bold" font-size="12" fill="#1e3a8a">2. Thiết Kế (System Design)</text>
+          <text x="297" y="132" text-anchor="middle" font-size="10.5" fill="#475569">Kiến trúc hệ thống, Database &amp; UI</text>
+          <path d="M420 118 H460 V143" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+          <!-- Step 3 -->
+          <rect x="320" y="147" width="245" height="44" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+          <text x="442" y="167" text-anchor="middle" font-weight="bold" font-size="12" fill="#065f46">3. Thực Hiện (Lập Trình)</text>
+          <text x="442" y="183" text-anchor="middle" font-size="10.5" fill="#475569">Code các tính năng theo bản thiết kế</text>
+          <path d="M565 169 H605 V194" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+          <!-- Step 4 -->
+          <rect x="465" y="198" width="245" height="44" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="587" y="218" text-anchor="middle" font-weight="bold" font-size="12" fill="#92400e">4. Kiểm Thử (Testing)</text>
+          <text x="587" y="234" text-anchor="middle" font-size="10.5" fill="#475569">Kiểm tra lỗi &amp; đối chiếu yêu cầu</text>
+          <path d="M710 220 H740 V245" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+          <!-- Step 5 -->
+          <rect x="595" y="249" width="245" height="44" rx="8" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+          <text x="717" y="269" text-anchor="middle" font-weight="bold" font-size="12" fill="#0f172a">5. Triển Khai &amp; Bảo Trì</text>
+          <text x="717" y="285" text-anchor="middle" font-size="10.5" fill="#475569">Vận hành thật, sửa lỗi &amp; cập nhật</text>
+
+          <!-- Side note -->
+          <rect x="30" y="205" width="380" height="75" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+          <text x="46" y="230" font-weight="bold" font-size="12" fill="#991b1b">⚠️ Lưu ý đặc trưng của Waterfall:</text>
+          <text x="46" y="249" font-size="11" fill="#7f1d1d">• Chảy một chiều từ trên xuống, rất khó quay lại bước cũ.</text>
+          <text x="46" y="266" font-size="11" fill="#7f1d1d">• Phải hoàn thiện tài liệu (BRD, SRS) đầy đủ ngay từ bước 1.</text>
+        </svg>
+        <div class="figure-caption">Hình C.3.1: 5 giai đoạn tuần tự trong mô hình Waterfall (Thác nước)</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">✅ Ưu Điểm</div>
+          <ul>
+            <li>Cấu trúc rạch ròi, dễ lập kế hoạch tiến độ và dự trù ngân sách ngay từ đầu.</li>
+            <li>Dễ quản lý theo từng mốc (Milestone) và hệ thống tài liệu hóa rất đầy đủ.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">⚠️ Nhược Điểm</div>
+          <ul>
+            <li>Kém linh hoạt khi khách hàng muốn thay đổi yêu cầu giữa chừng.</li>
+            <li>Nếu phát hiện sai sót ở giai đoạn Kiểm thử cuối cùng, chi phí sửa lại rất cao.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-title">🎯 Khi Nào Nên Dùng &amp; Ví Dụ Thực Tế</div>
+        <p style="margin-bottom:6px;">Phù hợp nhất với dự án <strong>yêu cầu rõ ràng, ít thay đổi</strong>, công nghệ đã ổn định hoặc có <strong>ràng buộc pháp lý / hợp đồng chặt chẽ</strong>:</p>
+        <ul style="margin-bottom:0;">
+          <li>Website giới thiệu doanh nghiệp có nội dung và giao diện cố định.</li>
+          <li>Phần mềm quản lý nội bộ theo quy trình nghiệp vụ có sẵn, ít biến động.</li>
+          <li>Hệ thống tuân thủ chuẩn quy định nghiêm ngặt trong ngành <strong>Ngân hàng, Y tế, Chính phủ</strong>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ==================== C.4: MÔ HÌNH AGILE / SCRUM ==================== -->
+    <section id="agile-ref" class="module-section">
+      <div class="module-header">
+        <span class="module-num">C.4</span>
+        <h2>C.4. Mô Hình Agile / Scrum</h2>
+      </div>
+
+      <p>
+        <strong>Agile/Scrum</strong> là sự kết hợp giữa <strong>Agile</strong> (triết lý phát triển phần mềm linh hoạt, lặp đi lặp lại) và <strong>Scrum</strong> (khung làm việc phổ biến nhất để triển khai Agile qua các chu kỳ ngắn 1–4 tuần gọi là <strong>Sprint</strong>). Mô hình giúp bàn giao sản phẩm sớm, nhận phản hồi liên tục và thích ứng nhanh khi yêu cầu thay đổi.
+      </p>
+
+      <!-- HÌNH MINH HỌA C.4.1: VÒNG LẶP SCRUM 3-4-3 -->
+      <div class="figure-box">
+        <svg viewBox="0 0 860 280" xmlns="http://www.w3.org/2000/svg">
+          <text x="430" y="24" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e3a8a">Khung Làm Việc Scrum (3 Vai Trò • 4 Cuộc Họp • 3 Trụ Cột Cốt Lõi)</text>
+
+          <!-- Product Backlog -->
+          <rect x="20" y="65" width="130" height="120" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+          <text x="85" y="92" text-anchor="middle" font-weight="bold" font-size="12" fill="#5b21b6">Product Backlog</text>
+          <text x="85" y="114" text-anchor="middle" font-size="10.5" fill="#475569">Danh sách toàn bộ</text>
+          <text x="85" y="130" text-anchor="middle" font-size="10.5" fill="#475569">yêu cầu / tính năng</text>
+          <rect x="34" y="146" width="102" height="26" rx="6" fill="#ffffff" stroke="#a78bfa"/>
+          <text x="85" y="163" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#6d28d9">PO quản lý</text>
+
+          <line x1="152" y1="125" x2="180" y2="125" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+          <!-- Sprint Planning -->
+          <rect x="184" y="80" width="130" height="90" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="249" y="108" text-anchor="middle" font-weight="bold" font-size="12" fill="#1e3a8a">1. Sprint Planning</text>
+          <text x="249" y="128" text-anchor="middle" font-size="10.5" fill="#475569">Chọn việc ưu tiên</text>
+          <text x="249" y="145" text-anchor="middle" font-size="10.5" fill="#475569">tạo Sprint Backlog</text>
+
+          <line x1="316" y1="125" x2="344" y2="125" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+          <!-- Sprint Cycle -->
+          <circle cx="445" cy="125" r="76" fill="#ecfdf5" stroke="#10b981" stroke-width="3"/>
+          <text x="445" y="96" text-anchor="middle" font-weight="bold" font-size="13" fill="#065f46">SPRINT</text>
+          <text x="445" y="114" text-anchor="middle" font-size="11" font-weight="600" fill="#047857">(1 – 4 tuần)</text>
+          <text x="445" y="136" text-anchor="middle" font-size="10.5" fill="#334155">Dev Team (5–9 người)</text>
+          <text x="445" y="152" text-anchor="middle" font-size="10.5" fill="#334155">Code &amp; Test tăng trưởng</text>
+
+          <!-- Daily Scrum loop -->
+          <circle cx="525" cy="60" r="36" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+          <text x="525" y="55" text-anchor="middle" font-weight="bold" font-size="10.5" fill="#92400e">2. Daily Scrum</text>
+          <text x="525" y="70" text-anchor="middle" font-size="10" fill="#b45309">15p mỗi ngày</text>
+
+          <line x1="523" y1="125" x2="555" y2="125" stroke="#10b981" stroke-width="2.2" marker-end="url(#arrow-green)"/>
+
+          <!-- Increment / MVP -->
+          <rect x="559" y="80" width="128" height="90" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+          <text x="623" y="108" text-anchor="middle" font-weight="bold" font-size="12" fill="#15803d">Sản Phẩm (MVP)</text>
+          <text x="623" y="128" text-anchor="middle" font-size="10.5" fill="#475569">Bản chạy được</text>
+          <text x="623" y="145" text-anchor="middle" font-size="10.5" fill="#475569">bàn giao sớm</text>
+
+          <line x1="689" y1="125" x2="714" y2="125" stroke="#2563eb" stroke-width="2.2" marker-end="url(#arrow)"/>
+
+          <!-- Review & Retro -->
+          <rect x="718" y="65" width="128" height="120" rx="10" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+          <text x="782" y="96" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#0f172a">3. Sprint Review</text>
+          <text x="782" y="113" text-anchor="middle" font-size="10" fill="#475569">Demo nhận góp ý</text>
+          <line x1="734" y1="126" x2="830" y2="126" stroke="#cbd5e1"/>
+          <text x="782" y="146" text-anchor="middle" font-weight="bold" font-size="11.5" fill="#0f172a">4. Retrospective</text>
+          <text x="782" y="163" text-anchor="middle" font-size="10" fill="#475569">Rút kinh nghiệm</text>
+
+          <!-- 3 Pillars bar -->
+          <rect x="20" y="220" width="826" height="42" rx="10" fill="#eff6ff" stroke="#93c5fd"/>
+          <text x="433" y="246" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e3a8a">
+            3 Giá Trị Cốt Lõi Scrum:   🔍 Minh Bạch (Transparency)   •   🔎 Thanh Tra (Inspection)   •   🔄 Thích Nghi (Adaptation)
+          </text>
+        </svg>
+        <div class="figure-caption">Hình C.4.1: Chu trình vận hành Agile/Scrum từ Product Backlog đến bàn giao sản phẩm tăng trưởng</div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">👥 3 Vai Trò Chính</div>
+          <ul style="margin-bottom:0;">
+            <li><strong>Product Owner (PO):</strong> Chốt yêu cầu, ưu tiên giá trị sản phẩm &amp; đánh giá đầu ra.</li>
+            <li><strong>Scrum Master:</strong> Đảm bảo đúng quy trình Scrum và gỡ bỏ trở ngại cho team.</li>
+            <li><strong>Development Team:</strong> Nhóm đa chức năng (5–9 người: Dev, Tester...) tự tổ chức hoàn thành việc.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🗓️ 4 Cuộc Họp Định Kỳ</div>
+          <ul style="margin-bottom:0;">
+            <li><strong>Sprint Planning:</strong> Lập kế hoạch cho Sprint mới.</li>
+            <li><strong>Daily Scrum:</strong> Họp ngắn ~15 phút mỗi ngày cập nhật tiến độ &amp; vướng mắc.</li>
+            <li><strong>Sprint Review:</strong> Demo phần sản phẩm hoàn thành để nhận phản hồi.</li>
+            <li><strong>Sprint Retrospective:</strong> Nhìn lại quy trình để cải tiến ở Sprint sau.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🧰 Ứng Dụng &amp; Công Cụ</div>
+          <ul style="margin-bottom:0;">
+            <li><strong>Phù hợp:</strong> Web/Mobile App, Thương mại điện tử, sản phẩm cần phát hành <strong>MVP</strong> &amp; nâng cấp liên tục.</li>
+            <li><strong>Công cụ:</strong> <strong>Jira, Trello</strong> quản lý Product Backlog, Sprint Backlog &amp; <em>Burndown Chart</em>.</li>
+            <li><strong>Liên quan:</strong> Kanban, Extreme Programming (XP), FDD.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>So Sánh Nhanh: Khi Nào Chọn Waterfall vs Agile/Scrum?</h4>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tiêu chí</th>
+              <th>Waterfall (Thác Nước)</th>
+              <th>Agile / Scrum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mức độ rõ yêu cầu</strong></td>
+              <td>Rõ ràng, cố định từ đầu, ít thay đổi.</td>
+              <td>Chưa rõ hết từ đầu, thay đổi liên tục theo thị trường.</td>
+            </tr>
+            <tr>
+              <td><strong>Thời điểm có sản phẩm</strong></td>
+              <td>Cuối dự án mới bàn giao 1 lần.</td>
+              <td>Cuối mỗi Sprint (1–4 tuần) đều có bản chạy được (MVP).</td>
+            </tr>
+            <tr>
+              <td><strong>Ví dụ phù hợp</strong></td>
+              <td>Website tĩnh, Phần mềm nội bộ cố định, Ngân hàng/Y tế.</td>
+              <td>Startup, App Mobile, Thương mại điện tử, Sản phẩm số.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+        <!-- ==================== C.5: CASE STUDY SRS CHUẨN (ASSETTRACK) ==================== -->
+    <section id="srs-quickmeet" class="module-section">
+      <div class="module-header">
+        <span class="module-num">C.5</span>
+        <h2>C.5. Case Study SRS Chuẩn: Chuyển Đổi Số Quản Lý Tài Sản (AssetTrack)</h2>
+      </div>
+
+      <p>
+        Tiếp nối bài toán <strong>Quản Lý Tài Sản (AssetTrack)</strong> ở mục <code>B.1.2.1</code>, phần này trình bày trọn vẹn theo cấu trúc chuẩn quốc tế IEEE SRS (tham khảo mẫu <em>Amazing Lunch Indicator</em>): từ <strong>As-Is / To-Be &amp; BRD</strong> → <strong>To-Be Swimlane</strong> → <strong>Use Case</strong> → <strong>Prototype</strong> → <strong>Bảng FR/QR</strong> → <strong>Release Plan &amp; QA Test Case</strong>.
+      </p>
+
+      <h3 id="qm-brd">C.5.1. Bước 1 — As-Is, To-Be &amp; BRD (Phân Rã User Classes)</h3>
+      <div class="callout">
+        <div class="callout-title">📌 Tổng hợp As-Is → To-Be &amp; BRD:</div>
+        <strong>As-Is (Hiện trạng):</strong> Cấp phát bằng biên bản giấy, theo dõi Excel rời rạc, kiểm kê cuối năm mất 7 ngày.
+        <strong>To-Be (Mục tiêu số hóa):</strong> Định danh 100% tài sản bằng tem QR, ký nhận điện tử, lưu Audit Log bất biến và kiểm kê qua camera điện thoại trong 2 giờ.
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">📋 User Class 1: QL Tài Sản</div>
+          <p style="margin-bottom:0;">Nhập kho tài sản, in tem QR, tạo phiếu Cấp phát/Thu hồi và quét QR kiểm kê định kỳ.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">👤 User Class 2: Nhân Viên</div>
+          <p style="margin-bottom:0;">Xem danh sách thiết bị mình đang giữ, bấm Ký nhận điện tử khi được giao và gửi báo hỏng khi gặp sự cố.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">🛡️ User Class 3: IT / Admin</div>
+          <p style="margin-bottom:0;">Cấu hình danh mục loại tài sản, đồng bộ danh sách nhân sự nghỉ việc và phân quyền hệ thống.</p>
+        </div>
+      </div>
+
+      <h3 id="qm-tobe">C.5.2. Bước 2 — To-Be Process (Quy Trình Nghiệp Vụ Swimlane)</h3>
+      <p>Sơ đồ chi tiết phối hợp 3 làn giữa <em>Phòng Quản lý Tài sản</em>, <em>Hệ thống AssetTrack</em> và <em>Nhân viên</em> đã được minh họa tại <strong>Hình 2.1.4</strong> (gồm 5 bước: Nhập kho &amp; In QR → Gửi thông báo → Ký nhận điện tử → Quét QR Kiểm kê/Thu hồi → Chốt báo cáo).</p>
+
+      <h3 id="qm-usecase">C.5.3. Bước 3 — Use Case Diagram &amp; Đặc Tả 3 Luồng</h3>
+      <p>Xem sơ đồ <strong>Use Case Diagram (Hình 2.1.3)</strong> gồm 5 Use Case chính cho 3 nhóm Actor (<code>QL Tài Sản</code>, <code>Nhân Viên</code>, <code>IT/Admin</code>) với đủ Luồng chính, Luồng thay thế (chuyển giao giữa 2 nhân viên) và Luồng ngoại lệ (tài sản đang bảo hành).</p>
+
+      <h3 id="qm-flow">C.5.4. Bước 4 — System Flow &amp; Prototype Giao Diện</h3>
+      <p>Xem bộ <strong>Wireframe 3 màn hình (Hình 2.1.5)</strong> minh họa luồng chuyển màn hình thực tế: <code>Màn hình 1: Kho &amp; Quét QR</code> → <code>Màn hình 2: Phiếu Cấp Phát</code> → <code>Màn hình 3: Ký Nhận &amp; Tiến độ Kiểm Kê</code>.</p>
+
+      <h3 id="qm-srs">C.5.5. Bước 5 — Bảng Đặc Tả SRS Chi Tiết (Functional FR &amp; Quality QR)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:75px;">Mã</th>
+              <th style="width:155px;">User Class / Loại</th>
+              <th style="width:185px;">Tên yêu cầu</th>
+              <th>Mô tả logic nghiệp vụ / Tiêu chí kỹ thuật</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>FR1</strong></td><td>User Class 3 (Admin)</td><td>Đăng nhập &amp; Đồng bộ HR</td><td>Đăng nhập SSO công ty; tự động đồng bộ trạng thái nhân viên (Đang làm / Đã nghỉ việc) từ hệ thống Nhân sự.</td></tr>
+            <tr><td><strong>FR2</strong></td><td>User Class 1 (QL TS)</td><td>Nhập kho &amp; Sinh mã QR</td><td>Tạo mới tài sản theo chuẩn mã <code>AST-YYYY-XXXX</code>, tự động sinh tem QR để in dán lên thiết bị.</td></tr>
+            <tr><td><strong>FR3</strong></td><td>User Class 1 &amp; 2</td><td>Cấp phát &amp; Ký nhận</td><td>QL tạo phiếu cấp phát (kèm ảnh chụp); Nhân viên bấm <em>Xác nhận đã nhận</em> mới đổi trạng thái sang Đang sử dụng.</td></tr>
+            <tr><td><strong>FR4</strong></td><td>User Class 1 (QL TS)</td><td>Quét QR Kiểm kê</td><td>Mở camera điện thoại quét QR để ghi nhận tài sản hợp lệ vào kỳ kiểm kê và xuất báo cáo thiết bị thiếu.</td></tr>
+            <tr><td><strong>FR5</strong></td><td>User Class 1 (QL TS)</td><td>Thu hồi tài sản</td><td>Khi HR đánh dấu nhân viên sắp nghỉ việc, hệ thống tự tạo nhắc việc thu hồi toàn bộ thiết bị nhân viên đó đang giữ.</td></tr>
+            <tr><td><strong>FR6</strong></td><td>User Class 2 (NV)</td><td>Báo hỏng / Bảo hành</td><td>Nhân viên gửi yêu cầu sửa chữa kèm ảnh lỗi; tài sản chuyển trạng thái <em>Đang bảo hành</em>.</td></tr>
+            <tr><td><strong>QR1</strong></td><td><span class="badge badge-amber">Hiệu năng</span></td><td>Tốc độ quét QR</td><td>Thời gian giải mã QR và hiển thị thông tin thiết bị trên điện thoại phải dưới <strong>1.0 giây</strong>.</td></tr>
+            <tr><td><strong>QR2</strong></td><td><span class="badge badge-purple">Toàn vẹn</span></td><td>Audit Log bất biến</td><td>Mọi thao tác giao/nhận/thu hồi đều lưu lịch sử không thể sửa/xóa, đảm bảo truy vết 100% người giữ qua từng thời kỳ.</td></tr>
+            <tr><td><strong>QR3</strong></td><td><span class="badge badge-blue">Bảo mật</span></td><td>Phân quyền dữ liệu</td><td>Nhân viên thường chỉ xem được thiết bị do chính mình đứng tên; chỉ QL Tài sản và Admin mới xem được toàn kho.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="qm-release">C.5.6. Bước 6 — Bảng Release Plan (Chuẩn Table 9) &amp; QA Test Case Mẫu</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:70px;">RE</th>
+              <th style="width:110px;">Dependencies</th>
+              <th style="width:170px;">Description</th>
+              <th>Motivation (Lý do ưu tiên)</th>
+              <th style="width:75px;">Release</th>
+              <th style="width:85px;">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>FR1</strong></td><td>—</td><td>Đăng nhập SSO &amp; HR Sync</td><td>Điều kiện tiên quyết để định danh người dùng và biết nhân viên nào đang làm việc.</td><td>1 (MVP)</td><td>2 ngày</td></tr>
+            <tr><td><strong>FR2</strong></td><td>FR1</td><td>Nhập kho &amp; Sinh tem QR</td><td>Cần có dữ liệu tài sản và tem QR trước khi thực hiện cấp phát/kiểm kê.</td><td>1 (MVP)</td><td>3 ngày</td></tr>
+            <tr><td><strong>FR3</strong></td><td>FR2, QR2</td><td>Cấp phát &amp; Ký nhận điện tử</td><td>Nghiệp vụ cốt lõi thay thế hoàn toàn biên bản giấy ngay ở đợt phát hành đầu tiên.</td><td>1 (MVP)</td><td>4 ngày</td></tr>
+            <tr><td><strong>FR4</strong></td><td>FR2, QR1</td><td>Quét QR Kiểm kê định kỳ</td><td>Giải quyết bài toán kiểm kê cuối năm mất 7 ngày, ưu tiên đưa vào bản 1.</td><td>1 (MVP)</td><td>3 ngày</td></tr>
+            <tr><td><strong>FR5</strong></td><td>FR1, FR3</td><td>Cảnh báo Thu hồi nghỉ việc</td><td>Tự động hóa quy trình thu hồi khi nhân sự nghỉ việc, triển khai ở đợt 2.</td><td>2</td><td>2 ngày</td></tr>
+            <tr><td><strong>FR6</strong></td><td>FR3</td><td>Báo hỏng &amp; Bảo hành</td><td>Tính năng hỗ trợ bảo trì thiết bị sau khi quy trình cấp phát đã vận hành ổn định.</td><td>2</td><td>2 ngày</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>QA Test Case Mẫu (Đối chiếu trực tiếp từ FR &amp; QR):</h4>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:95px;">Mã TC</th>
+              <th style="width:85px;">Tham chiếu</th>
+              <th>Kịch bản kiểm thử</th>
+              <th>Kết quả mong đợi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>TC-AT-01</strong></td><td>FR3, QR2</td><td>Cấp phát Laptop Sẵn sàng cho NV A và NV A bấm Ký nhận</td><td>Trạng thái chuyển sang <em>Đang sử dụng</em>, người giữ = NV A, ghi 1 dòng vào Audit Log.</td></tr>
+            <tr><td><strong>TC-AT-02</strong></td><td>FR3</td><td>Quét QR cấp phát một Laptop đang ở trạng thái <em>Đang bảo hành</em></td><td>Hệ thống chặn tạo phiếu và báo lỗi <em>"Tài sản đang bảo hành, không thể cấp phát"</em>.</td></tr>
+            <tr><td><strong>TC-AT-03</strong></td><td>FR4, QR1</td><td>Quét QR kiểm kê trên điện thoại</td><td>Hiển thị đúng thông tin thiết bị dưới 1 giây và cập nhật số lượng đã kiểm kê.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="glossary" class="module-section">
+      <div class="module-header">
+        <span class="module-num">C.6</span>
+        <h2>C.6. Bảng Chú Thích Toàn Bộ Từ Viết Tắt</h2>
+      </div>
+
+      <p>
+        Mọi từ viết tắt xuất hiện trong tài liệu này đều được gắn chú thích trực tiếp (bạn có thể <strong>rê chuột vào các chữ có gạch chân chấm</strong> để xem nghĩa nhanh) và tổng hợp đầy đủ tại bảng dưới đây để tiện tra cứu khi in ra PDF:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:130px;">Từ viết tắt</th>
+              <th style="width:270px;">Tên đầy đủ (Tiếng Anh)</th>
+              <th>Giải thích ngắn gọn (Tiếng Việt)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>IT</strong></td><td>Information Technology</td><td>Công nghệ thông tin.</td></tr>
+            <tr><td><strong>PM / PO</strong></td><td>Project Manager / Product Owner</td><td>Quản lý dự án (lo tiến độ, nhân sự) / Chủ sở hữu sản phẩm (lo giá trị kinh doanh, ưu tiên tính năng).</td></tr>
+            <tr><td><strong>BA</strong></td><td>Business Analyst</td><td>Chuyên viên phân tích nghiệp vụ — cầu nối giữa khách hàng và đội kỹ thuật.</td></tr>
+            <tr><td><strong>QA / QC</strong></td><td>Quality Assurance / Quality Control</td><td>Đảm bảo chất lượng quy trình / Kiểm thử viên (Tester) tìm lỗi phần mềm.</td></tr>
+            <tr><td><strong>UI / UX</strong></td><td>User Interface / User Experience</td><td>Giao diện người dùng / Trải nghiệm người dùng khi thao tác.</td></tr>
+            <tr><td><strong>SDLC</strong></td><td>Software Development Life Cycle</td><td>Vòng đời phát triển phần mềm (từ lấy yêu cầu đến bảo trì).</td></tr>
+            <tr><td><strong>BRD</strong></td><td>Business Requirement Document</td><td>Tài liệu yêu cầu nghiệp vụ cấp cao (mục tiêu, phạm vi kinh doanh).</td></tr>
+            <tr><td><strong>SRS</strong></td><td>Software Requirement Specification</td><td>Tài liệu đặc tả yêu cầu phần mềm chi tiết cho Dev và Tester.</td></tr>
+            <tr><td><strong>AC</strong></td><td>Acceptance Criteria</td><td>Tiêu chí chấp nhận — điều kiện cụ thể để xác định một tính năng đã hoàn thành đúng.</td></tr>
+            <tr><td><strong>CR</strong></td><td>Change Request</td><td>Yêu cầu thay đổi phát sinh sau khi đã chốt phạm vi ban đầu.</td></tr>
+            <tr><td><strong>UAT</strong></td><td>User Acceptance Testing</td><td>Kiểm thử chấp nhận người dùng (khách hàng dùng thử và nghiệm thu trước khi chạy thật).</td></tr>
+            <tr><td><strong>VCS</strong></td><td>Version Control System</td><td>Hệ thống quản lý phiên bản mã nguồn và tài liệu (như Git, SVN).</td></tr>
+            <tr><td><strong>SVN</strong></td><td>Apache Subversion</td><td>Hệ thống quản lý phiên bản tập trung (cần kết nối máy chủ trung tâm).</td></tr>
+            <tr><td><strong>PR / MR</strong></td><td>Pull Request / Merge Request</td><td>Yêu cầu gộp code từ nhánh làm việc vào nhánh chính để đồng đội kiểm tra (Review).</td></tr>
+            <tr><td><strong>API</strong></td><td>Application Programming Interface</td><td>Giao diện lập trình ứng dụng — cổng giao tiếp trao đổi dữ liệu giữa Frontend, Backend và hệ thống ngoài.</td></tr>
+            <tr><td><strong>HTTP / HTTPS</strong></td><td>HyperText Transfer Protocol (Secure)</td><td>Giao thức truyền tải dữ liệu trên web (HTTPS có mã hóa bảo mật SSL/TLS).</td></tr>
+            <tr><td><strong>JSON</strong></td><td>JavaScript Object Notation</td><td>Định dạng văn bản nhẹ, phổ biến nhất để trao đổi dữ liệu qua API.</td></tr>
+            <tr><td><strong>DB</strong></td><td>Database</td><td>Cơ sở dữ liệu — nơi lưu trữ thông tin có tổ chức của hệ thống.</td></tr>
+            <tr><td><strong>SQL / NoSQL</strong></td><td>Structured Query Language / Not Only SQL</td><td>Ngôn ngữ truy vấn CSDL dạng bảng quan hệ / CSDL phi quan hệ (lưu dạng tài liệu, key-value).</td></tr>
+            <tr><td><strong>MSSQL</strong></td><td>Microsoft SQL Server</td><td>Hệ quản trị cơ sở dữ liệu quan hệ của Microsoft, hay đi cùng .NET.</td></tr>
+            <tr><td><strong>HTML / CSS</strong></td><td>HyperText Markup Language / Cascading Style Sheets</td><td>Ngôn ngữ đánh dấu khung nội dung web / Ngôn ngữ định dạng màu sắc, bố cục giao diện.</td></tr>
+            <tr><td><strong>JS / TS</strong></td><td>JavaScript / TypeScript</td><td>Ngôn ngữ lập trình chạy trên trình duyệt &amp; Node.js / Phiên bản JS có kiểm tra kiểu dữ liệu chặt chẽ.</td></tr>
+            <tr><td><strong>CI / CD</strong></td><td>Continuous Integration / Continuous Deployment</td><td>Tích hợp liên tục &amp; Triển khai liên tục — tự động kiểm tra và đưa code lên Server.</td></tr>
+            <tr><td><strong>ERP / CRM</strong></td><td>Enterprise Resource Planning / Customer Relationship Management</td><td>Hệ thống hoạch định nguồn lực doanh nghiệp / Hệ thống quản lý quan hệ khách hàng.</td></tr>
+            <tr><td><strong>AI / ML</strong></td><td>Artificial Intelligence / Machine Learning</td><td>Trí tuệ nhân tạo / Học máy.</td></tr>
+            <tr><td><strong>CMS / SME</strong></td><td>Content Management System / Small and Medium Enterprise</td><td>Hệ thống quản trị nội dung (web tin tức/bán hàng) / Doanh nghiệp vừa và nhỏ.</td></tr>
+            <tr><td><strong>SEO / RAM</strong></td><td>Search Engine Optimization / Random Access Memory</td><td>Tối ưu hóa công cụ tìm kiếm (Google) / Bộ nhớ truy cập ngẫu nhiên tốc độ cao trên máy tính.</td></tr>
+            <tr><td><strong>IIS</strong></td><td>Internet Information Services</td><td>Web Server của Microsoft dùng để chạy ứng dụng .NET trên Windows Server.</td></tr>
+            <tr><td><strong>FRD</strong></td><td>Functional Requirement Document</td><td>Tài liệu đặc tả yêu cầu chức năng chi tiết.</td></tr>
+            <tr><td><strong>HLD / LLD</strong></td><td>High-Level Design / Low-Level Design</td><td>Thiết kế kiến trúc tổng thể hệ thống / Thiết kế chi tiết bên trong từng module code.</td></tr>
+            <tr><td><strong>ERD</strong></td><td>Entity Relationship Diagram</td><td>Sơ đồ thực thể liên kết — mô hình thiết kế các bảng và quan hệ trong Cơ sở dữ liệu.</td></tr>
+            <tr><td><strong>MES</strong></td><td>Manufacturing Execution System</td><td>Hệ thống điều hành và quản lý sản xuất tại nhà máy/xưởng theo thời gian thực.</td></tr>
+            <tr><td><strong>WO</strong></td><td>Work Order</td><td>Lệnh sản xuất (quy định sản xuất mã hàng nào, số lượng bao nhiêu, trên chuyền nào).</td></tr>
+            <tr><td><strong>OK / NG</strong></td><td>Okay / Not Good</td><td>Thuật ngữ sản xuất chỉ sản phẩm Đạt chuẩn (OK) và sản phẩm Lỗi / Không đạt (NG).</td></tr>
+            <tr><td><strong>OEE</strong></td><td>Overall Equipment Effectiveness</td><td>Chỉ số hiệu suất thiết bị tổng thể trong sản xuất.</td></tr>
+            <tr><td><strong>QR</strong></td><td>Quick Response (Code)</td><td>Mã vạch 2D dùng điện thoại/máy quét để đọc nhanh mã lệnh sản xuất hoặc vật tư.</td></tr>
+            <tr><td><strong>PLC / IoT</strong></td><td>Programmable Logic Controller / Internet of Things</td><td>Bộ điều khiển máy móc công nghiệp / Mạng lưới thiết bị cảm biến kết nối Internet.</td></tr>
+            <tr><td><strong>KPI</strong></td><td>Key Performance Indicator</td><td>Chỉ số đo lường hiệu quả công việc hoặc mục tiêu dự án.</td></tr>
+            <tr><td><strong>JWT</strong></td><td>JSON Web Token</td><td>Chuỗi mã hóa xác thực người dùng khi gọi API.</td></tr>
+            <tr><td><strong>SAP B1</strong></td><td>SAP Business One</td><td>Phần mềm quản trị nguồn lực doanh nghiệp (ERP) dùng để quản lý đơn hàng, kho, kế toán, định mức.</td></tr>
+            <tr><td><strong>POP</strong></td><td>Point of Production</td><td>Hệ thống ghi nhận &amp; điều hành sản xuất trực tiếp tại xưởng (thuộc nhóm MES).</td></tr>
+            <tr><td><strong>BOM</strong></td><td>Bill of Materials</td><td>Định mức nguyên phụ liệu (cần bao nhiêu mét vải, cúc, chỉ để may 1 sản phẩm).</td></tr>
+            <tr><td><strong>PQC</strong></td><td>Process Quality Control</td><td>Kiểm soát chất lượng ngay trên chuyền sản xuất trong lúc đang may.</td></tr>
+            <tr><td><strong>P-Lot</strong></td><td>Production Lot</td><td>Mã lô sản xuất dùng để gom nhóm và theo dõi đơn hàng xuyên suốt từ cắt, may đến xuất hàng.</td></tr>
+            <tr><td><strong>BPMN</strong></td><td>Business Process Model and Notation</td><td>Chuẩn ký hiệu quốc tế dùng để vẽ sơ đồ quy trình nghiệp vụ (As-Is / To-Be).</td></tr>
+            <tr><td><strong>PRD</strong></td><td>Product Requirement Document</td><td>Tài liệu yêu cầu sản phẩm (thường do PO/BA viết ở giai đoạn Product Discovery).</td></tr>
+            <tr><td><strong>INVEST</strong></td><td>Independent, Negotiable, Valuable, Estimable, Small, Testable</td><td>6 tiêu chí vàng đánh giá chất lượng một User Story.</td></tr>
+            <tr><td><strong>REST</strong></td><td>Representational State Transfer</td><td>Kiến trúc thiết kế API phổ biến nhất hiện nay (dùng các method GET, POST, PUT, DELETE).</td></tr>
+            <tr><td><strong>URD</strong></td><td>User Requirements Document</td><td>Tài liệu yêu cầu người dùng cuối (End-user cần hệ thống hỗ trợ những gì).</td></tr>
+            <tr><td><strong>FRS</strong></td><td>Functional Requirement Specification</td><td>Tên gọi khác của FRD — Tài liệu đặc tả yêu cầu chức năng chi tiết.</td></tr>
+            <tr><td><strong>NFR</strong></td><td>Non-Functional Requirements</td><td>Yêu cầu phi chức năng (hiệu năng, tốc độ phản hồi, bảo mật, khả năng chịu tải).</td></tr>
+            <tr><td><strong>RTM</strong></td><td>Requirement Traceability Matrix</td><td>Ma trận truy xuất yêu cầu — đối chiếu từ BRD sang SRS và Test Case để không sót tính năng.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    const ACRONYMS = {
+      'IT': 'Information Technology — Công nghệ thông tin',
+      'PM': 'Project Manager — Quản lý dự án',
+      'PO': 'Product Owner — Chủ sở hữu sản phẩm',
+      'BA': 'Business Analyst — Chuyên viên phân tích nghiệp vụ',
+      'QA': 'Quality Assurance — Đảm bảo chất lượng',
+      'QC': 'Quality Control — Kiểm soát / Kiểm thử chất lượng',
+      'UI': 'User Interface — Giao diện người dùng',
+      'UX': 'User Experience — Trải nghiệm người dùng',
+      'SDLC': 'Software Development Life Cycle — Vòng đời phát triển phần mềm',
+      'BRD': 'Business Requirement Document — Tài liệu yêu cầu nghiệp vụ',
+      'SRS': 'Software Requirement Specification — Đặc tả yêu cầu phần mềm',
+      'FRD': 'Functional Requirement Document — Tài liệu đặc tả chức năng',
+      'FRS': 'Functional Requirement Specification — Tài liệu đặc tả yêu cầu chức năng',
+      'URD': 'User Requirements Document — Tài liệu yêu cầu người dùng cuối',
+      'NFR': 'Non-Functional Requirements — Yêu cầu phi chức năng (bảo mật, hiệu năng, tải)',
+      'RTM': 'Requirement Traceability Matrix — Ma trận truy xuất không sót yêu cầu',
+      'AC': 'Acceptance Criteria — Tiêu chí chấp nhận',
+      'CR': 'Change Request — Yêu cầu thay đổi',
+      'UAT': 'User Acceptance Testing — Kiểm thử nghiệm thu người dùng',
+      'HLD': 'High-Level Design — Thiết kế kiến trúc tổng thể',
+      'LLD': 'Low-Level Design — Thiết kế kỹ thuật chi tiết',
+      'ERD': 'Entity Relationship Diagram — Sơ đồ thiết kế Cơ sở dữ liệu',
+      'MES': 'Manufacturing Execution System — Hệ thống quản lý sản xuất',
+      'POP': 'Point of Production — Hệ thống ghi nhận sản xuất trực tiếp tại xưởng',
+      'BOM': 'Bill of Materials — Định mức nguyên phụ liệu sản xuất',
+      'PQC': 'Process Quality Control — Kiểm tra chất lượng trên chuyền sản xuất',
+      'P-Lot': 'Production Lot — Mã lô sản xuất theo dõi đơn hàng',
+      'BPMN': 'Business Process Model and Notation — Chuẩn vẽ sơ đồ quy trình nghiệp vụ 2.0',
+      'PRD': 'Product Requirement Document — Tài liệu yêu cầu sản phẩm',
+      'INVEST': 'Independent, Negotiable, Valuable, Estimable, Small, Testable — 6 tiêu chí User Story chuẩn',
+      'REST': 'Representational State Transfer — Kiến trúc thiết kế API phổ biến nhất',
+      'MVP': 'Minimum Viable Product — Sản phẩm khả dụng tối thiểu để ra mắt sớm',
+      'WO': 'Work Order — Lệnh sản xuất',
+      'OK': 'Sản phẩm đạt tiêu chuẩn chất lượng',
+      'NG': 'Not Good — Sản phẩm bị lỗi / Không đạt chuẩn',
+      'OEE': 'Overall Equipment Effectiveness — Hiệu suất thiết bị tổng thể',
+      'QR': 'Quick Response — Mã quét nhanh 2D',
+      'PLC': 'Programmable Logic Controller — Bộ điều khiển máy công nghiệp',
+      'IoT': 'Internet of Things — Kết nối vạn vật / Cảm biến công nghiệp',
+      'KPI': 'Key Performance Indicator — Chỉ số đo lường hiệu quả',
+      'JWT': 'JSON Web Token — Mã xác thực bảo mật API',
+      'VCS': 'Version Control System — Hệ thống quản lý phiên bản',
+      'SVN': 'Apache Subversion — Hệ thống quản lý phiên bản tập trung',
+      'PR': 'Pull Request — Yêu cầu gộp code để Review',
+      'MR': 'Merge Request — Yêu cầu gộp code (trên GitLab)',
+      'API': 'Application Programming Interface — Cổng giao tiếp giữa các hệ thống',
+      'HTTP': 'HyperText Transfer Protocol — Giao thức truyền tải siêu văn bản',
+      'HTTPS': 'HTTP Secure — Giao thức web có mã hóa bảo mật',
+      'JSON': 'JavaScript Object Notation — Định dạng dữ liệu trao đổi phổ biến',
+      'DB': 'Database — Cơ sở dữ liệu',
+      'SQL': 'Structured Query Language — Ngôn ngữ truy vấn cơ sở dữ liệu quan hệ',
+      'NoSQL': 'Not Only SQL — Cơ sở dữ liệu phi quan hệ',
+      'MSSQL': 'Microsoft SQL Server — Hệ quản trị CSDL của Microsoft',
+      'HTML': 'HyperText Markup Language — Ngôn ngữ tạo khung trang web',
+      'HTML5': 'HyperText Markup Language phiên bản 5',
+      'CSS': 'Cascading Style Sheets — Ngôn ngữ tạo kiểu & bố cục giao diện',
+      'CSS3': 'Cascading Style Sheets phiên bản 3',
+      'JS': 'JavaScript — Ngôn ngữ lập trình web phổ biến nhất',
+      'TS': 'TypeScript — JavaScript có kiểm tra kiểu dữ liệu chặt chẽ',
+      'CI/CD': 'Continuous Integration / Continuous Deployment — Tích hợp & Triển khai tự động',
+      'ERP': 'Enterprise Resource Planning — Hệ thống hoạch định nguồn lực doanh nghiệp',
+      'CRM': 'Customer Relationship Management — Hệ thống quản lý quan hệ khách hàng',
+      'AI': 'Artificial Intelligence — Trí tuệ nhân tạo',
+      'ML': 'Machine Learning — Học máy',
+      'CMS': 'Content Management System — Hệ thống quản trị nội dung',
+      'SME': 'Small and Medium Enterprise — Doanh nghiệp vừa và nhỏ',
+      'SEO': 'Search Engine Optimization — Tối ưu hóa công cụ tìm kiếm',
+      'RAM': 'Random Access Memory — Bộ nhớ truy cập ngẫu nhiên tốc độ cao',
+      'CPU': 'Central Processing Unit — Bộ vi xử lý trung tâm',
+      'IIS': 'Internet Information Services — Web Server của Microsoft',
+      'SaaS': 'Software as a Service — Phần mềm dạng dịch vụ',
+      'AWS': 'Amazon Web Services — Nền tảng điện toán đám mây của Amazon',
+      'GCP': 'Google Cloud Platform — Nền tảng đám mây của Google',
+      'SSMS': 'SQL Server Management Studio — Công cụ quản trị SQL Server',
+      'BFF': 'Backend for Frontend — Lớp API trung gian phục vụ riêng cho giao diện'
+    };
+
+    (function annotateAcronyms() {
+      const keys = Object.keys(ACRONYMS).sort((a, b) => b.length - a.length);
+      const pattern = new RegExp('\\b(' + keys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b', 'g');
+      const skipTags = new Set(['SCRIPT', 'STYLE', 'PRE', 'CODE', 'SVG', 'ABBR', 'A', 'H1', 'H2', 'INPUT', 'BUTTON']);
+
+      function walk(node) {
+        if (node.nodeType === 3) {
+          const text = node.nodeValue;
+          if (!pattern.test(text)) return;
+          pattern.lastIndex = 0;
+          const frag = document.createDocumentFragment();
+          let lastIdx = 0;
+          let match;
+          while ((match = pattern.exec(text)) !== null) {
+            if (match.index > lastIdx) {
+              frag.appendChild(document.createTextNode(text.slice(lastIdx, match.index)));
+            }
+            const abbr = document.createElement('abbr');
+            abbr.setAttribute('data-tooltip', ACRONYMS[match[1]]);
+            abbr.setAttribute('tabindex', '0');
+            abbr.textContent = match[1];
+            frag.appendChild(abbr);
+            lastIdx = pattern.lastIndex;
+          }
+          if (lastIdx < text.length) {
+            frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+          }
+          node.parentNode.replaceChild(frag, node);
+        } else if (
+          node.nodeType === 1 &&
+          !skipTags.has(node.tagName.toUpperCase()) &&
+          !(node.namespaceURI && node.namespaceURI.indexOf('svg') !== -1)
+        ) {
+          Array.from(node.childNodes).forEach(walk);
+        }
+      }
+      walk(document.querySelector('.main'));
+    })();
+
+    (function initAcronymPopup() {
+      const popup = document.createElement('div');
+      popup.id = 'acronym-popup';
+      popup.setAttribute('role', 'tooltip');
+      popup.innerHTML = '<span class="popup-term"></span><span class="popup-desc"></span>';
+      document.body.appendChild(popup);
+
+      const termEl = popup.querySelector('.popup-term');
+      const descEl = popup.querySelector('.popup-desc');
+      let activeTarget = null;
+
+      function showPopup(target) {
+        const text = target.getAttribute('data-tooltip');
+        if (!text) return;
+        activeTarget = target;
+        termEl.textContent = target.textContent;
+        descEl.textContent = text;
+        popup.classList.add('visible');
+
+        const rect = target.getBoundingClientRect();
+        const popRect = popup.getBoundingClientRect();
+        const pad = 10;
+
+        let top = rect.top - popRect.height - 8;
+        if (top < pad) {
+          top = rect.bottom + 8;
+        }
+        let left = rect.left + (rect.width / 2) - (popRect.width / 2);
+        left = Math.max(pad, Math.min(left, window.innerWidth - popRect.width - pad));
+
+        popup.style.top = top + 'px';
+        popup.style.left = left + 'px';
+      }
+
+      function hidePopup() {
+        activeTarget = null;
+        popup.classList.remove('visible');
+      }
+
+      document.addEventListener('mouseover', e => {
+        const abbr = e.target.closest('abbr[data-tooltip]');
+        if (abbr) showPopup(abbr);
+      });
+      document.addEventListener('mouseout', e => {
+        const abbr = e.target.closest('abbr[data-tooltip]');
+        if (abbr && abbr === activeTarget) hidePopup();
+      });
+      document.addEventListener('focusin', e => {
+        const abbr = e.target.closest('abbr[data-tooltip]');
+        if (abbr) showPopup(abbr);
+      });
+      document.addEventListener('focusout', e => {
+        const abbr = e.target.closest('abbr[data-tooltip]');
+        if (abbr) hidePopup();
+      });
+      window.addEventListener('scroll', hidePopup, { passive: true });
+    })();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    function copyCode(btn) {
+      const code = btn.nextElementSibling.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const old = btn.innerText;
+        btn.innerText = 'Đã Copy ✓';
+        setTimeout(() => btn.innerText = old, 1500);
+      });
+    }
+
+    function filterSections() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const sections = document.querySelectorAll('.module-section');
+      sections.forEach(sec => {
+        if (!q || sec.innerText.toLowerCase().includes(q)) {
+          sec.classList.remove('hidden-by-search');
+        } else {
+          sec.classList.add('hidden-by-search');
+        }
+      });
+    }
+
+    // ScrollSpy: Highlight active nav link (including sub-items) & auto-expand parent tree
+    const navLinks = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
+    const spyTargets = navLinks
+      .map(link => document.getElementById(link.getAttribute('href').slice(1)))
+      .filter(Boolean);
+
+    window.addEventListener('scroll', () => {
+      let currentId = '';
+      const scrollPos = window.scrollY + 130;
+      spyTargets.forEach(el => {
+        if (scrollPos >= el.getBoundingClientRect().top + window.scrollY) {
+          currentId = el.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === '#' + currentId;
+        link.classList.toggle('active', isActive);
+        if (isActive) {
+          let parent = link.closest('.tree-group');
+          while (parent) {
+            parent.classList.add('open');
+            parent = parent.parentElement ? parent.parentElement.closest('.tree-group') : null;
+          }
+        }
+      });
+    }, { passive: true });
+
+    const FLOW_SYMBOLS = {
+      oval: {
+        title: '⬭ Hình Bầu Dục / Oval (Terminator — Bắt Đầu / Kết Thúc)',
+        tag: 'Bắt buộc ở đầu & cuối',
+        tagClass: 'badge badge-blue',
+        what: 'Đánh dấu điểm khởi đầu (Start) và điểm kết thúc (End) của một lưu đồ quy trình.',
+        rule: 'Mỗi lưu đồ chỉ nên có 1 điểm Start rõ ràng; mọi nhánh xử lý đều phải đi đến một điểm End (tránh bị "đứt quãng" không có lối ra).',
+        example: '"Bắt đầu Đăng nhập", "Kết thúc — Vào Trang chủ" hoặc "Kết thúc — Khóa tài khoản".'
+      },
+      rect: {
+        title: '▭ Hình Chữ Nhật (Process — Bước Xử Lý / Hành Động)',
+        tag: 'Chỉ 1 đầu ra',
+        tagClass: 'badge badge-green',
+        what: 'Biểu thị một thao tác, hành động cụ thể hoặc một bước tính toán/xử lý dữ liệu.',
+        rule: 'Nội dung phải ngắn gọn và bắt đầu bằng Động từ hành động. Chỉ có 1 mũi tên đi ra (nếu cần rẽ nhánh Đúng/Sai phải dùng Hình Thoi).',
+        example: '"Kiểm tra định dạng Email", "Mã hóa mật khẩu BCrypt", "Cộng dồn sản lượng OK".'
+      },
+      diamond: {
+        title: '◆ Hình Thoi (Decision — Điểm Quyết Định / Rẽ Nhánh)',
+        tag: 'Bắt buộc ≥ 2 nhánh ra',
+        tagClass: 'badge badge-amber',
+        what: 'Đại diện cho một câu hỏi điều kiện hoặc bước kiểm tra có từ 2 kết quả trở lên (Đúng/Sai, Có/Không, Đạt/Lỗi).',
+        rule: 'Nội dung bên trong viết dạng câu hỏi ngắn. Phải có ít nhất 2 mũi tên đi ra và ghi rõ nhãn (Yes/No hoặc Đúng/Sai) trên từng mũi tên.',
+        example: '"Khớp Database?" → Nhánh Đúng (Vào Trang chủ) | Nhánh Sai (Báo lỗi).'
+      },
+      para: {
+        title: '▱ Hình Bình Hành (Input / Output — Nhập / Xuất Dữ Liệu)',
+        tag: 'Giao tiếp dữ liệu',
+        tagClass: 'badge badge-purple',
+        what: 'Thể hiện bước người dùng nhập dữ liệu vào hệ thống (Input) hoặc hệ thống xuất dữ liệu/thông báo ra ngoài (Output).',
+        rule: 'Dùng khi muốn nhấn mạnh sự trao đổi thông tin từ bên ngoài vào (nhập form, quét QR) hoặc xuất kết quả ra (hiển thị thông báo, xuất Excel).',
+        example: '"Nhập Email & Mật khẩu", "Quét mã QR lệnh sản xuất", "Hiển thị cảnh báo lỗi".'
+      },
+      arrow: {
+        title: '➜ Mũi Tên (Flowline — Hướng Dòng Chảy)',
+        tag: 'Tránh cắt chéo nhau',
+        tagClass: 'badge badge-blue',
+        what: 'Chỉ hướng đi tuần tự từ bước này sang bước tiếp theo trong quy trình.',
+        rule: 'Luồng chính phải đi nhất quán Từ trên xuống dưới hoặc Từ trái sang phải. Tránh để các mũi tên đan chéo nhau gây rối mắt người đọc.',
+        example: 'Mũi tên nối từ "Nhập Email" sang "Đúng định dạng?" kèm nhãn Đúng/Sai.'
+      },
+      doc: {
+        title: '📄 Ký Hiệu Tài Liệu (Document — Biểu Mẫu / Báo Cáo)',
+        tag: 'Đầu ra giấy tờ / File',
+        tagClass: 'badge badge-purple',
+        what: 'Đại diện cho một tài liệu, chứng từ, hóa đơn hoặc file báo cáo được tạo ra hoặc sử dụng trong quy trình.',
+        rule: 'Chỉ dùng khi bước đó thực sự sinh ra hoặc cần đọc một chứng từ/báo cáo cụ thể (PDF, Excel, Phiếu in).',
+        example: '"Phiếu Lệnh Sản Xuất (WO)", "Hóa đơn VAT PDF", "Biên bản nghiệm thu UAT".'
+      },
+      delay: {
+        title: '◗ Ký Hiệu Trì Hoãn (Delay — Thời Gian Chờ Đợi)',
+        tag: 'Thể hiện độ trễ',
+        tagClass: 'badge badge-amber',
+        what: 'Biểu thị khoảng thời gian hệ thống hoặc con người phải tạm dừng chờ đợi trước khi sang bước tiếp theo.',
+        rule: 'Ghi rõ khoảng thời gian chờ bên trong hình để Dev/QA biết cách cấu hình Timer hoặc Timeout.',
+        example: '"Chờ 15 phút mở khóa tài khoản", "Chờ Worker đồng bộ SAP sau 30 giây".'
+      }
+    };
+
+    function selectFlowSymbol(key, btn) {
+      const data = FLOW_SYMBOLS[key];
+      if (!data) return;
+      document.querySelectorAll('.fc-symbol-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      document.getElementById('fc-title').textContent = data.title;
+      const tagEl = document.getElementById('fc-tag');
+      tagEl.textContent = data.tag;
+      tagEl.className = data.tagClass;
+      document.getElementById('fc-body').innerHTML =
+        '<li><strong>Hình này là gì?</strong> ' + data.what + '</li>' +
+        '<li><strong>Yêu cầu bắt buộc khi vẽ:</strong> ' + data.rule + '</li>' +
+        '<li><strong>Ví dụ thực tế:</strong> ' + data.example + '</li>';
+    }
+  </script>
+</body>
+</html>

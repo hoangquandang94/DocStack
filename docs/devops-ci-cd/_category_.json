@@ -1,0 +1,8 @@
+{
+  "label": "🚀 DevOps & CI/CD",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Cấu hình Docker, CI/CD Pipeline, triển khai và giám sát hệ thống."
+  }
+}
