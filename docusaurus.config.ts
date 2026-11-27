@@ -7,11 +7,11 @@ const config: Config = {
   tagline: 'Kho Tri Thức & Cẩm Nang Kỹ Thuật Dành Cho Toàn Bộ Team',
   favicon: 'img/favicon.ico',
 
-  url: 'https://docstack.internal',
-  baseUrl: '/',
+  url: 'https://hoangquandang94.github.io',
+  baseUrl: '/DocStack/',
 
-  organizationName: 'my-team',
-  projectName: 'docstack',
+  organizationName: 'hoangquandang94',
+  projectName: 'DocStack',
 
   onBrokenLinks: 'warn',
 
